@@ -12,7 +12,7 @@ public class Cliente {
 
 	//Construtor
 	public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero, 
-					String classeEconomica, ArrayList<Veiculo> listaVeiculos) {
+					String classeEconomica) {
 
 		this.nome = nome;
 		this.endereco = endereco;
@@ -20,7 +20,7 @@ public class Cliente {
 		this.educacao = educacao;
 		this.genero = genero;
 		this.classeEconomica = classeEconomica;
-		this.listaVeiculos = listaVeiculos;
+		listaVeiculos = new ArrayList<Veiculo>();
 	}
 
 	//Get da classe
@@ -80,6 +80,15 @@ public class Cliente {
 		return "nome: " + nome + "\n" + "endereco: " + endereco + "\n" + "dataLicenca: " + dataLicenca + "\n"
 				+ "educacao: " + educacao + "\n" + "genero: " + genero + "\n" + "classeEconomica: " + classeEconomica + "\n"
 				+ "listaVeiculos: " + listaVeiculos + "\n";
+	}
+
+	//Controle da listaVeiculos
+	public void addVeiculo(Veiculo v){
+		listaVeiculos.add(v);
+	}
+
+	public void removeVeiculo(Veiculo v){
+		
 	}
 	
 }

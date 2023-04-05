@@ -36,6 +36,7 @@ public class ClientePJ extends Cliente{
         this.dataFundacao = dataFundacao;
     }
 
+    @Override
     //toString da classe, retorna todas as variaveis da classe
     public String toString(){
         return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "dataLicenca: " + getDataLicenca() + "\n"
@@ -62,6 +63,39 @@ public class ClientePJ extends Cliente{
 		if(ok == 0){
 			return false;
 		}
+        //calculando o primeiro digito verificador
+        int soma = 0;
+        int digito1;
+        int resto;
+        soma = cnpj.charAt(0)*5 + cnpj.charAt(1)*4 + cnpj.charAt(2)*3 + cnpj.charAt(3)*2 +
+                cnpj.charAt(4)*9 + cnpj.charAt(5)*8 + cnpj.charAt(6)*7 + cnpj.charAt(7)*6 + cnpj.charAt(8)*5 
+                + cnpj.charAt(9)*4 + cnpj.charAt(10)*3 + cnpj.charAt(11)*2;
+        resto = soma%11;
+        if(resto < 2){
+            digito1= 0;
+        }
+        else{
+            digito1 = 11-resto;
+        }
+        //calculando o segundo digito verificador
+        int digito2;
+        soma = cnpj.charAt(0)*6 + cnpj.charAt(1)*5 + cnpj.charAt(2)*4 + cnpj.charAt(3)*3 +
+                cnpj.charAt(4)*2 + cnpj.charAt(5)*9 + cnpj.charAt(6)*8 + cnpj.charAt(7)*7 + cnpj.charAt(8)*6 
+                + cnpj.charAt(9)*5 + cnpj.charAt(10)*4 + cnpj.charAt(11)*3 + digito1*2;
+        resto = soma%11;
+        if(resto < 2){
+            digito2 = 0;
+        }
+        else{
+            digito2 = 11-resto;
+        }
+        //verificando se os digitos verificadores coincidem com o do cnpj
+        if(cnpj.charAt(12) == digito1 && cnpj.charAt(13) == digito2){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
