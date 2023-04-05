@@ -1,5 +1,5 @@
 public class Cliente {
-	private String nome;
+    private String nome;
 	private String cpf;
 	private String dataNascimento;
 	private int idade;
@@ -71,13 +71,15 @@ public class Cliente {
 			return false;
 		}
 		//ver se todos os digitos sao iguais
+		int ok = 0;
 		for(int i = 0; i < cpf.length(); i++) {
-			if(i < 10 && cpf.charAt(i) != cpf.charAt(i+1)) {
+			if(i < 10 && cpf.charAt(i) != cpf.charAt(i+1)){
+				ok = 1;
 				break;
 			}
-			else {
-				return false;
-			}
+		}
+		if(ok == 0){
+			return false;
 		}
 		//calculando o primeiro digito verificador
 		int j = 0;
@@ -119,5 +121,4 @@ public class Cliente {
 		}
 		
 	}
-	
 }

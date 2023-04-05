@@ -3,7 +3,7 @@ public class Main {
 	public static void main(String[] args){
 		//Cliente
 		//Criando o objeto
-		Cliente cli = new Cliente("Joao", "134.953.400-50", "15/04/2003", 19, "Rua Teste 10");
+		Cliente cli = new Cliente("Joao", "333.691.210-50", "15/04/2003", 19, "Rua Teste 10");
 		//Validando cpf
 		if(cli.validarCPF(cli.getCpf())){
 			System.out.println("CPF valido!\n");
