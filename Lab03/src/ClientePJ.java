@@ -1,18 +1,17 @@
-import java.util.Date;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class ClientePJ extends Cliente{
     private String cnpj;
-    private Date dataFundacao;
+    private LocalDate dataFundacao;
 
 
     //Construtora da classe
-    public ClientePJ(String nome, String endereco, Date dataLicenca, 
-                        String educacao, String genero, String classeEconomica,
-                         ArrayList<Veiculo> listaVeiculos, String cnpj, Date dataFundacao){
+    public ClientePJ(String nome, String endereco, String educacao, String genero, String classeEconomica,
+                         ArrayList<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao){
 
         //chama o construtor da superclasse
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
+        super(nome, endereco, listaVeiculos);
         this.cnpj =  cnpj;
         this.dataFundacao = dataFundacao;
 
@@ -23,7 +22,7 @@ public class ClientePJ extends Cliente{
         return cnpj;
     }
 
-    public Date getDataFundacao(){
+    public LocalDate getDataFundacao(){
         return dataFundacao;
     }
 
@@ -32,16 +31,15 @@ public class ClientePJ extends Cliente{
         this.cnpj = cnpj;
     }
 
-    public void setDataFundacao(Date dataFundacao){
+    public void setDataFundacao(LocalDate dataFundacao){
         this.dataFundacao = dataFundacao;
     }
 
     @Override
     //toString da classe, retorna todas as variaveis da classe
     public String toString(){
-        return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "dataLicenca: " + getDataLicenca() + "\n"
-				+ "educacao: " + getEducacao() + "\n" + "genero: " + getGenero() + "\n" + "classeEconomica: " + getClasseEconomica() + "\n"
-				+ "listaVeiculos: " + getListaVeiculos() + "\n" + "cnpj: " + cnpj + "\n" + "dataFundacao: " + dataFundacao + "\n";
+        return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "listaVeiculos: " + getListaVeiculos() + "\n" 
+                + "cnpj: " + cnpj + "\n" + "dataFundacao: " + dataFundacao + "\n";
     }
 
     //Valida CNPJ

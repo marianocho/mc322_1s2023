@@ -1,46 +1,76 @@
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ClientePF extends Cliente{
     //variaveis do ClientePF
     private String cpf;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
+	private LocalDate dataLicenca;
+	private String educacao;
+	private String genero;
+	private String classeEconomica;
 
     //Construtora da classe
-    public ClientePF(String nome, String endereco, Date dataLicenca, 
+    public ClientePF(String nome, String endereco, LocalDate dataLicenca, 
                         String educacao, String genero, String classeEconomica,
-                         ArrayList<Veiculo> listaVeiculos, String cpf, Date dataNascimento){
+                         ArrayList<Veiculo> listaVeiculos, String cpf, LocalDate dataNascimento){
 
         //chama o construtor da superclasse
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
+        super(nome, endereco, listaVeiculos);
+		//variaveis da classe
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
-
+		this.dataLicenca = dataLicenca;
+		this.educacao = educacao;
+		this.genero = genero;
+		this.classeEconomica = classeEconomica;
     }
 
     //Get da classe
     public String getCpf(){
         return cpf;
     }
-
-    public Date getDataNascimento(){
+    public LocalDate getDataNascimento(){
         return dataNascimento;
     }
+	public LocalDate getDataLicenca() {
+		return dataLicenca;
+	}
+	public String getEducacao() {
+		return educacao;
+	}
+	public String getGenero() {
+		return genero;
+	}
+	public String getClasseEconomica(){
+		return classeEconomica;
+	}
 
     //Set da classe
     public void setCpf(String cpf){
         this.cpf = cpf;
     }
-
-    public void setDataNascimento(Date dataNascimento){
+    public void setDataNascimento(LocalDate dataNascimento){
         this.dataNascimento = dataNascimento;
     }
+	public void setDataLicenca(LocalDate dataLicenca) {
+		this.dataLicenca = dataLicenca;
+	}
+	public void setEducacao(String educacao) {
+		this.educacao = educacao;
+	}
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+	public void setClasseEconomica(String classeEconomica){
+		this.classeEconomica = classeEconomica;
+	}
 
 	@Override
     //toString da classe, retorna todas as variaveis
     public String toString(){
-        return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "dataLicenca: " + getDataLicenca() + "\n"
-				+ "educacao: " + getEducacao() + "\n" + "genero: " + getGenero() + "\n" + "classeEconomica: " + getClasseEconomica() + "\n"
+        return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "dataLicenca: " + dataLicenca + "\n"
+				+ "educacao: " + educacao + "\n" + "genero: " + genero + "\n" + "classeEconomica: " + classeEconomica + "\n"
 				+ "listaVeiculos: " + getListaVeiculos() + "\n" + "cpf: " + cpf + "\n" + "dataNascimento: " + dataNascimento + "\n";
     }
 
