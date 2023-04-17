@@ -153,7 +153,9 @@ public class Seguradora {
 		}
 	}
 
-	public ArrayList<Sinistro> listarSinistros(){
-		return listaSinistros;
+	public void listarSinistros(){
+		for(Sinistro s : listaSinistros){
+			System.out.println(s);
+		}
 	}
 }
