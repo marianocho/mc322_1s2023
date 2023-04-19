@@ -7,8 +7,7 @@ public class ClientePJ extends Cliente{
 
 
     //Construtora da classe
-    public ClientePJ(String nome, String endereco, String educacao, String genero, String classeEconomica,
-                         ArrayList<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao){
+    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao){
 
         //chama o construtor da superclasse
         super(nome, endereco, listaVeiculos);
@@ -65,9 +64,18 @@ public class ClientePJ extends Cliente{
         int soma = 0;
         int digito1;
         int resto;
-        soma = cnpj.charAt(0)*5 + cnpj.charAt(1)*4 + cnpj.charAt(2)*3 + cnpj.charAt(3)*2 +
-                cnpj.charAt(4)*9 + cnpj.charAt(5)*8 + cnpj.charAt(6)*7 + cnpj.charAt(7)*6 + cnpj.charAt(8)*5 
-                + cnpj.charAt(9)*4 + cnpj.charAt(10)*3 + cnpj.charAt(11)*2;
+        soma = Character.getNumericValue(cnpj.charAt(0))*5 + 
+                Character.getNumericValue(cnpj.charAt(1))*4 + 
+                Character.getNumericValue(cnpj.charAt(2))*3 + 
+                Character.getNumericValue(cnpj.charAt(3))*2 +
+                Character.getNumericValue(cnpj.charAt(4))*9 + 
+                Character.getNumericValue(cnpj.charAt(5))*8 + 
+                Character.getNumericValue(cnpj.charAt(6))*7 + 
+                Character.getNumericValue(cnpj.charAt(7))*6 + 
+                Character.getNumericValue(cnpj.charAt(8))*5 + 
+                Character.getNumericValue(cnpj.charAt(9))*4 + 
+                Character.getNumericValue(cnpj.charAt(10))*3 + 
+                Character.getNumericValue(cnpj.charAt(11))*2;
         resto = soma%11;
         if(resto < 2){
             digito1= 0;
@@ -77,9 +85,19 @@ public class ClientePJ extends Cliente{
         }
         //calculando o segundo digito verificador
         int digito2;
-        soma = cnpj.charAt(0)*6 + cnpj.charAt(1)*5 + cnpj.charAt(2)*4 + cnpj.charAt(3)*3 +
-                cnpj.charAt(4)*2 + cnpj.charAt(5)*9 + cnpj.charAt(6)*8 + cnpj.charAt(7)*7 + cnpj.charAt(8)*6 
-                + cnpj.charAt(9)*5 + cnpj.charAt(10)*4 + cnpj.charAt(11)*3 + digito1*2;
+        soma = Character.getNumericValue(cnpj.charAt(0))*6 + 
+                Character.getNumericValue(cnpj.charAt(1))*5 + 
+                Character.getNumericValue(cnpj.charAt(2))*4 + 
+                Character.getNumericValue(cnpj.charAt(3))*3 +
+                Character.getNumericValue(cnpj.charAt(4))*2 + 
+                Character.getNumericValue(cnpj.charAt(5))*9 + 
+                Character.getNumericValue(cnpj.charAt(6))*8 + 
+                Character.getNumericValue(cnpj.charAt(7))*7 + 
+                Character.getNumericValue(cnpj.charAt(8))*6 + 
+                Character.getNumericValue(cnpj.charAt(9))*5 + 
+                Character.getNumericValue(cnpj.charAt(10))*4 + 
+                Character.getNumericValue(cnpj.charAt(11))*3 + 
+                digito1*2;
         resto = soma%11;
         if(resto < 2){
             digito2 = 0;
@@ -88,7 +106,7 @@ public class ClientePJ extends Cliente{
             digito2 = 11-resto;
         }
         //verificando se os digitos verificadores coincidem com o do cnpj
-        if(cnpj.charAt(12) == digito1 && cnpj.charAt(13) == digito2){
+        if(Character.getNumericValue(cnpj.charAt(12)) == digito1 && Character.getNumericValue(cnpj.charAt(13)) == digito2){
             return true;
         }
         else{

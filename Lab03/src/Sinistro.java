@@ -74,7 +74,8 @@ public class Sinistro {
 		//toString da classe retorna todas as variaveis
 		public String toString(){
 			return "id: " + id + "\n" + "data: " + data + "\n" + "endereco: " + endereco + "\n" 
-					+ "seguradora: " + seguradora + "\n" + "veiculo: " + veiculo + "\n" + "cliente: " + cliente + "\n";
+					+ "seguradora: " + seguradora.getNome() + "\n" + "veiculo: " + veiculo + 
+					"cliente: " + cliente.getNome() + "\n";
 		}
 		
 }

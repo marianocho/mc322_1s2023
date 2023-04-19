@@ -43,13 +43,34 @@ public class Cliente {
 	}
 
 	//Controle da listaVeiculos
-	public void addVeiculo(Veiculo v){
+	public boolean addVeiculo(Veiculo v){
+		for(Veiculo veiculo : listaVeiculos){
+			if(veiculo == v){
+				System.out.println("Veiculo ja existente!");
+				return false;
+			}
+		}
+		System.out.println("Veiculo adicionado!");
 		listaVeiculos.add(v);
+		return true;
 	}
 
-	public void removeVeiculo(Veiculo v){
-		//Remover o veiculo desejado
-		listaVeiculos.remove(v);
+	public boolean removeVeiculo(Veiculo v){
+		for(Veiculo veiculo : listaVeiculos){
+			if(veiculo == v){
+				System.out.println("Removendo veiculo!");
+				listaVeiculos.remove(v);
+				return true;
+			}
+		}
+		System.out.println("Nao existe esse veiculo!");
+		return false;
 	}
 	
+	public void listarVeiculos(){
+		for(Veiculo v : listaVeiculos){
+			System.out.println(v);
+		}
+	}
+
 }

@@ -69,6 +69,12 @@ public class Seguradora {
 		this.listaClientes = listaClientes;
 	}
 
+	//toString da classe
+	public String toString(){
+		return "nome: " + nome + "\n" + "telefone: " + telefone + "\n" + "email: " + email + "\n" + "endereco: " + endereco + "\n" +
+				"listaSinistros: " + listaSinistros + "\n" + "listaClientes: " + listaClientes + "\n";
+	}
+
 	//Controle de clientes
 	public boolean cadastrarCliente(Cliente cliente){
 		//Verificar se o cliente ja existe na lista
@@ -144,11 +150,11 @@ public class Seguradora {
 		}
 		//se acharmos um sinistro para o cliente quer dizer que a operacao foi um sucesso
 		if(ok >= 1){
-			System.out.println("Cliente possui " + ok + " sinistros!");
+			System.out.println(cliente + " possui " + ok + " sinistro(s)!");
 			return true;
 		}
 		else{
-			System.out.println("Cliente não possui sinistro registrado!");
+			System.out.println(cliente + " não possui sinistro registrado!");
 			return false;
 		}
 	}
