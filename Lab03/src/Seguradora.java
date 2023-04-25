@@ -143,7 +143,7 @@ public class Seguradora {
 		for(Sinistro s : listaSinistros){
 			//Pegar o cliente do sinistro correspondente
 			Cliente c = s.getCliente();
-			if(c.getNome() == cliente){
+			if(c.getNome().equals(cliente)){
 				System.out.println(s);
 				ok++;
 			}

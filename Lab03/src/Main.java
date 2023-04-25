@@ -13,7 +13,7 @@ public class Main {
         ArrayList<Veiculo> v1 = new ArrayList<Veiculo>();
         LocalDate dL = LocalDate.of(2022, 10, 20);
         LocalDate dN = LocalDate.of(2003, 12, 30);
-        ClientePF cliente_pf = new ClientePF("Joao da Costa", "Rua do Joao 123", dL, "EM completo", "masculino", 
+        ClientePF cliente_pf = new ClientePF("Joao", "Rua do Joao 123", dL, "EM completo", "masculino", 
                                                 "Classe media", v1, "126.632.950-19", dN);
         //Se CPF é valido cadastrar ClientePF
         if(cliente_pf.validarCPF(cliente_pf.getCpf())){
@@ -27,7 +27,7 @@ public class Main {
         //Criar clientePJ
         ArrayList<Veiculo> v2 = new ArrayList<Veiculo>();
         LocalDate dF = LocalDate.of(2010, 02, 11);
-        ClientePJ cliente_pj = new ClientePJ("Corps teste", "Rua do Corps 456", v2, "11.222.333/0001-81", dF);
+        ClientePJ cliente_pj = new ClientePJ("Corps", "Rua do Corps 456", v2, "11.222.333/0001-81", dF);
         //Se CNPJ é valido cadastrar ClientePJ
         if(cliente_pj.validarCNPJ(cliente_pj.getCnpj())){
             System.out.println("CNPJ valido!");
@@ -97,7 +97,7 @@ public class Main {
 
         //SCANNER
         Scanner scan = new Scanner(System.in);
-        System.out.println("Pressione enter");
+        System.out.println("Pressione enter para continuar");
         while(scan.hasNextLine()){
             //lista clientes
             System.out.println("Deseja listar todos os clientes? S/N");
@@ -138,6 +138,5 @@ public class Main {
                 break;
             }
         }
-        //scan.close();
     }
 }
