@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+//OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK
 public class Cliente {
 	private String nome;
 	private String endereco;

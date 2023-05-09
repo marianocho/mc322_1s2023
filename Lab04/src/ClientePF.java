@@ -46,6 +46,21 @@ public class ClientePF extends Cliente{
 		return classeEconomica;
 	}
 
+	//calcular a idade baseado nas datas
+	public int getIdade(){
+		LocalDate hoje = LocalDate.now();
+		int idade = hoje.getYear() - dataNascimento.getYear();
+		//se a pessoa nao fez o aniversario no ano atual ainda
+		if(dataNascimento.getMonthValue() > hoje.getMonthValue()){
+			idade -= 1;
+		}
+		else if(dataNascimento.getMonthValue() == hoje.getMonthValue() && dataNascimento.getDay() > hoje.getDay()){
+			idade -= 1;
+		}
+
+		return idade;
+	}
+
     //Set da classe
     public void setCpf(String cpf){
         this.cpf = cpf;
@@ -136,6 +151,16 @@ public class ClientePF extends Cliente{
 
 	@Override
 	public double calculaScore(){
-		return VALOR_BASE * FATOR_IDADE * getListaVeiculos().size();
+		CalcSeguro fator_idade;
+		if(18 <= idade && idade < 30){
+			fator_idade = FATOR_18_30;
+		}
+		else if(30 <= idade && idade < 60){
+			fator_idade = FATOR_30_60;
+		}
+		else if(60 <= idade && idade <= 90){
+			fator_idade = FATOR_60_90;
+		}
+		return VALOR_BASE * fator_idade * getListaVeiculos().size();
 	}
 }

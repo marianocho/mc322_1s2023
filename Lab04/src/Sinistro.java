@@ -1,5 +1,5 @@
 public class Sinistro {
-
+	//OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK
 		private int id;
 		private String data;
 		private String endereco;

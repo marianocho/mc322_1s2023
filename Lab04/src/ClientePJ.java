@@ -7,12 +7,13 @@ public class ClientePJ extends Cliente{
     private int qtdeFuncionarios;
 
     //Construtora da classe
-    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao){
+    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao, int qtdeFuncionarios){
 
         //chama o construtor da superclasse
         super(nome, endereco, listaVeiculos);
         this.cnpj =  cnpj;
         this.dataFundacao = dataFundacao;
+        this.qtdeFuncionarios = qtdeFuncionarios;
 
     }
 

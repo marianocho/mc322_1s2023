@@ -1,5 +1,7 @@
 import java.util.*;
 
+//OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK
+
 public class Seguradora {
 	private String nome;
 	private String telefone;
@@ -166,12 +168,17 @@ public class Seguradora {
 	}
 
 	//Retorna o preco do seguro do cliente desejado
-	public int calcularPrecoSeguroCliente(Cliente cliente){
-
+	public double calcularPrecoSeguroCliente(Cliente cliente){
+		return (cliente.calculaScore() * (1 + cliente.getListaSinistros().length()));
 	}
 
-	//Retorna o preco total
-	public int calcularReceita(){
+	//Retorna o preco somado de todos os clientes da Seguradora
+	public double calcularReceita(){
+		double receita = 0.0;
+		for(Cliente c : listaClientes){
+			receita += calcularPrecoSeguroCliente(c);
+		}
 
+		return receita;
 	}
 }
