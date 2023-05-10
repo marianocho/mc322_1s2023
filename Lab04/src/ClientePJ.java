@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
 
+//OK OK OK OK OK OK OK OK OK OK OK OK
+
 public class ClientePJ extends Cliente{
     private String cnpj;
     private LocalDate dataFundacao;
@@ -117,6 +119,6 @@ public class ClientePJ extends Cliente{
 
     @Override
     public double calculaScore(){
-        return VALOR_BASE * (1 + ( qtdeFuncionarios ) /100) * getListaVeiculos().size();
+        return CalcSeguro.VALOR_BASE.getValor() * (1 + ( qtdeFuncionarios ) /100) * getListaVeiculos().size();
     }
 }

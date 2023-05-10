@@ -5,6 +5,7 @@ public class Cliente {
 	private String nome;
 	private String endereco;
 	private ArrayList<Veiculo> listaVeiculos;
+	private double valorSeguro;
 
 	//Construtor
 	public Cliente(String nome, String endereco, ArrayList<Veiculo> listaVeiculos) {
@@ -12,6 +13,7 @@ public class Cliente {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.listaVeiculos = listaVeiculos;
+		this.valorSeguro = 0.0;
 	}
 
 	//Get da classe
@@ -24,23 +26,28 @@ public class Cliente {
 	public ArrayList<Veiculo> getListaVeiculos(){
 		return listaVeiculos;
 	}
+	public double getValorSeguro(){
+		return valorSeguro;
+	}
 	
 	//Set da classe
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	
+	}	
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
 	public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos){
 		this.listaVeiculos = listaVeiculos;
+	}
+	public void setValorSeguro(double valorSeguro){
+		this.valorSeguro = valorSeguro;
 	}
 	
 	//ToString, retorna todas as variaveis
 	public String toString() {
-		return "nome: " + nome + "\n" + "endereco: " + endereco + "\n" + "listaVeiculos: " + listaVeiculos + "\n";
+		return "nome: " + nome + "\n" + "endereco: " + endereco + "\n" + "listaVeiculos: " + listaVeiculos + "\n" + 
+				"valorSeguro: " + valorSeguro + "\n";
 	}
 
 	//Controle da listaVeiculos

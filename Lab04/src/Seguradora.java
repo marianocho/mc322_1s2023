@@ -130,9 +130,9 @@ public class Seguradora {
 	}
 
 	//Funcoes de vizualicao e geracao de sinistros
-	public boolean gerarSinistro(Veiculo veiculo, Cliente cliente){
+	public boolean gerarSinistro(Veiculo veiculo, Cliente cliente, String endereco){
 		//Gerando sinistro
-		Sinistro novoSinistro = new Sinistro("2023/03/11", "Rua do Sinistro 123", this, veiculo, cliente);
+		Sinistro novoSinistro = new Sinistro("2023/03/11", endereco, this, veiculo, cliente);
 		listaSinistros.add(novoSinistro);
 		System.out.println("Sinistro gerado!");
 		return true;
@@ -169,7 +169,14 @@ public class Seguradora {
 
 	//Retorna o preco do seguro do cliente desejado
 	public double calcularPrecoSeguroCliente(Cliente cliente){
-		return (cliente.calculaScore() * (1 + cliente.getListaSinistros().length()));
+		int qtd_s = 0;
+		//calcular a quantidade de sinistros
+		for(Sinistro s : listaSinistros){
+			if(cliente == s.getCliente()){
+				qtd_s++;
+			}
+		}
+		return (cliente.calculaScore() * (1 + qtd_s));
 	}
 
 	//Retorna o preco somado de todos os clientes da Seguradora

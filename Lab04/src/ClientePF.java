@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
 
+//OK OK OK OK OK OK OK OK OK OK OK
+
 public class ClientePF extends Cliente{
     //variaveis do ClientePF
     private String cpf;
@@ -151,16 +153,16 @@ public class ClientePF extends Cliente{
 
 	@Override
 	public double calculaScore(){
-		CalcSeguro fator_idade;
-		if(18 <= idade && idade < 30){
-			fator_idade = FATOR_18_30;
+		double fator_idade = 0.0;
+		if(18 <= getIdade() && getIdade() < 30){
+			fator_idade = CalcSeguro.FATOR_18_30.getValor();
 		}
-		else if(30 <= idade && idade < 60){
-			fator_idade = FATOR_30_60;
+		else if(30 <= getIdade() && getIdade() < 60){
+			fator_idade = CalcSeguro.FATOR_30_60.getValor();
 		}
-		else if(60 <= idade && idade <= 90){
-			fator_idade = FATOR_60_90;
+		else if(60 <= getIdade() && getIdade() <= 90){
+			fator_idade = CalcSeguro.FATOR_60_90.getValor();
 		}
-		return VALOR_BASE * fator_idade * getListaVeiculos().size();
+		return CalcSeguro.VALOR_BASE.getValor() * fator_idade * getListaVeiculos().size();
 	}
 }
