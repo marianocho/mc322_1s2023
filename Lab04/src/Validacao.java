@@ -133,10 +133,14 @@ public class Validacao{
     }
 
     //Valida nome
+    /*
+    OBS: no validarNome eu aceito o _, pois o scanner com nextLine estava dando erro, portanto
+    utilizo apenas next e nextInt, e considero _ como uma barra de espaco
+    */
     public static boolean validarNome(String nome){
         for(int i = 0; i < nome.length(); i++){
             char c = nome.charAt(i);
-            if(!Character.isLetter(c)){
+            if(!Character.isLetter(c) && c != '_'){
                 return false;
             }
         }

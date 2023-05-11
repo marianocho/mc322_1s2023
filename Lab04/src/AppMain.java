@@ -25,7 +25,7 @@ public class AppMain {
                             //Instanciando clientePF
                             ClientePF cliPF = new ClientePF(null, null, null, null, null, null, null, null, null);
                             //Obtendo nome do cliente
-                            System.out.println("Nome: \n");
+                            System.out.println("Nome: (digite '_' ao inves de barra de espaco)\n");
                             cliPF.setNome(info.next());
                             //Validando nome
                             if(!Validacao.validarNome(cliPF.getNome())){
@@ -35,7 +35,7 @@ public class AppMain {
                                 }
                             }
                             //Obtendo endereco
-                            System.out.println("Endereco: (digite _ ao inves de barra de espaco)\n");
+                            System.out.println("Endereco: (digite '_' ao inves de barra de espaco)\n");
                             cliPF.setEndereco(info.next());
                             //Definindo lista veiculos como vazia
                             cliPF.setListaVeiculos(new ArrayList<Veiculo>());
@@ -71,17 +71,16 @@ public class AppMain {
                             //Instanciando um clientePJ
                             ClientePJ cliPJ = new ClientePJ(null, null, null, null, null, -1);
                             //Obtendo nome
-                            System.out.println("Nome?\n");
+                            System.out.println("Nome? (digite '_' ao inves de barra de espaco)\n");
                             cliPJ.setNome(info.next());
                             //Validando nome
                             if(!Validacao.validarNome(cliPJ.getNome())){
                                 while(!Validacao.validarNome(cliPJ.getNome())){
                                    System.out.println("Nome invalido!\n");
-                                   cliPJ.setNome(info.next());
                                 }
                             }
                             //Obtendo endereco
-                            System.out.println("Endereco?\n");
+                            System.out.println("Endereco? (digite '_' ao inves de barra de espaco)\n");
                             cliPJ.setEndereco(info.next());
                             //Definindo listaVeiculos
                             cliPJ.setListaVeiculos(new ArrayList<Veiculo>());
@@ -90,13 +89,13 @@ public class AppMain {
                             cliPJ.setCnpj(info.next());
                             //Validando cnpj
                             if(!Validacao.validarCNPJ(cliPJ.getCnpj())){
-                                while(!Validacao.validarCNPJ(cliPJ.getCnpj())){
-                                    System.out.println("CNPJ invalido!\n");
-                                    cliPJ.setCnpj(info.next());
-                                }
+                                System.out.println("CNPJ invalido!\n");
+                            }
+                            while(!Validacao.validarCNPJ(cliPJ.getCnpj())){
+                                cliPJ.setCnpj(info.next());
                             }
                             //Obtendo data fundacao
-                            System.out.println("Data de fundacao:?\n");
+                            System.out.println("Data de fundacao:? yyyy-mm-dd\n");
                             cliPJ.setDataFundacao(LocalDate.parse(info.next()));
                             //Obtendo qtd funcionarios
                             System.out.println("Quantide de funcionarios?\n");
@@ -270,12 +269,18 @@ public class AppMain {
                         //Excluir sinistro
                         System.out.println("ID do sinistro a ser removido\n");
                         int IDrmv = info.nextInt();
+                        int removido = 0;
                         for(Seguradora seg : listaSeg){ //Para cada seguradora
                             for(Sinistro sin : seg.getListaSinistros()){ //Para cada sinistro dessa seguradora
                                 if(sin.getId() == IDrmv){ //Achamos o id do sinistro a ser removido
                                     seg.getListaSinistros().remove(sin);
                                     System.out.println("Sinistro removido!\n");
+                                    removido = 1;
+                                    break;
                                 }
+                            }
+                            if(removido == 1){
+                                break;
                             }
                         }
                     }
@@ -459,7 +464,7 @@ public class AppMain {
             System.out.println("Qual o nome da seguradora que voce deseja operar?\n");
             //Mostrando os seguros disponiveis
             for(Seguradora s : listaSeg){
-                System.out.println("-" + s.getNome()+"\n");
+                System.out.println("-" + s.getNome());
             }
             Scanner seguro = new Scanner(System.in);
             int ind = 0;
