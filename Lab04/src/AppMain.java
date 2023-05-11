@@ -454,7 +454,7 @@ public class AppMain {
         //Printando a receita da seguradora
         System.out.println("Receita " + receita_seg + "\n");
 
-        //-----------FUNCAO DE MENU DE OPERACOES------------------
+        //-----------FUNCAO DE MENU DE OPERACOES----------------
         System.out.println("1 - Cadastros\n2 - Listar\n3 - Excluir\n4 - Gerar Sinistro\n5 - Transferir Seguro\n6 - Calcular Receita Seguradora\n0 - Sair\n");
         int comando = 0;
         Scanner entrada = new Scanner(System.in);
