@@ -1,7 +1,9 @@
+import java.time.LocalDate;
+
 public class Sinistro {
 	//OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK
 		private int id;
-		private String data;
+		private LocalDate data;
 		private String endereco;
 		private Seguradora seguradora;
 		private Veiculo veiculo;
@@ -10,7 +12,7 @@ public class Sinistro {
 		private static int idGerado = 1;
 		
 		//Construtor
-		public Sinistro(String data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
+		public Sinistro(LocalDate data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
 			this.id = idGerado;
 			//Gerado um id, somar um para gerar outro id na proxima
 			idGerado++;
@@ -26,7 +28,7 @@ public class Sinistro {
 			return id;
 		}
 
-		public String getData() {
+		public LocalDate getData() {
 			return data;
 		}
 
@@ -51,7 +53,7 @@ public class Sinistro {
 			this.id = id;
 		}
 		
-		public void setData(String data) {
+		public void setData(LocalDate data) {
 			this.data = data;
 		}
 		

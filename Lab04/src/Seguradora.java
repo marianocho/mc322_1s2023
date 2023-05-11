@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.*;
 
 //OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK
@@ -95,7 +96,7 @@ public class Seguradora {
 	public boolean removerCliente(String cliente){
 		//Verificar se o cliente existe
 		for(Cliente clienteExiste : listaClientes){
-			if(clienteExiste.getNome() == cliente){
+			if(clienteExiste.getNome().equals(cliente)){
 				System.out.println("Cliente removido!");
 				listaClientes.remove(clienteExiste);
 				return true;
@@ -131,8 +132,9 @@ public class Seguradora {
 
 	//Funcoes de vizualicao e geracao de sinistros
 	public boolean gerarSinistro(Veiculo veiculo, Cliente cliente, String endereco){
+		LocalDate dataSin = LocalDate.of(2023, 03, 11);
 		//Gerando sinistro
-		Sinistro novoSinistro = new Sinistro("2023/03/11", endereco, this, veiculo, cliente);
+		Sinistro novoSinistro = new Sinistro(dataSin, endereco, this, veiculo, cliente);
 		listaSinistros.add(novoSinistro);
 		System.out.println("Sinistro gerado!");
 		return true;

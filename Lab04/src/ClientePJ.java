@@ -28,6 +28,10 @@ public class ClientePJ extends Cliente{
         return dataFundacao;
     }
 
+    public int getQtdeFuncionarios(){
+        return qtdeFuncionarios;
+    }
+
     //Set da classe
     public void setCnpj(String cnpj){
         this.cnpj = cnpj;
@@ -37,11 +41,15 @@ public class ClientePJ extends Cliente{
         this.dataFundacao = dataFundacao;
     }
 
+    public void setQtdeFuncionarios(int qtdeFuncionarios){
+        this.qtdeFuncionarios = qtdeFuncionarios;
+    }
+
     @Override
     //toString da classe, retorna todas as variaveis da classe
     public String toString(){
         return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "listaVeiculos: " + getListaVeiculos() + "\n" 
-                + "cnpj: " + cnpj + "\n" + "dataFundacao: " + dataFundacao + "\n";
+                + "cnpj: " + cnpj + "\n" + "dataFundacao: " + dataFundacao + "\n" + "qtdeFuncionarios: " + qtdeFuncionarios + "\n";
     }
 
     //Valida CNPJ

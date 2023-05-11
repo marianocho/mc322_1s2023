@@ -56,7 +56,7 @@ public class ClientePF extends Cliente{
 		if(dataNascimento.getMonthValue() > hoje.getMonthValue()){
 			idade -= 1;
 		}
-		else if(dataNascimento.getMonthValue() == hoje.getMonthValue() && dataNascimento.getDay() > hoje.getDay()){
+		else if(dataNascimento.getMonthValue() == hoje.getMonthValue() && dataNascimento.getDayOfMonth() > hoje.getDayOfMonth()){
 			idade -= 1;
 		}
 
