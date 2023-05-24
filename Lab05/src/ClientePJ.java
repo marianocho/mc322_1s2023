@@ -1,24 +1,31 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class ClientePJ extends Cliente{
     private final String cnpj;
     private LocalDate dataFundacao;
     private int qtdeFuncionarios;
+    private ArrayList<Frota> listaFrota;
 
     //Construtora da classe
-    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao, int qtdeFuncionarios){
+    public ClientePJ(String nome, String endereco, String telefone, String email, String cnpj, LocalDate dataFundacao, int qtdeFuncionarios){
 
         //chama o construtor da superclasse
-        super(nome, endereco, listaVeiculos);
+        super(nome, endereco, telefone, email);
+        //Verificando cnpj
         if(Validacao.validarCNPJ(cnpj)){
             this.cnpj =  cnpj;
         }
         else{
-            break;
+            Scanner scan = new Scanner(System.in);
+            System.out.println("CNPJ inválido! Digite novamente: ");
+            this.cnpj = scan.next();
+            scan.close();
         }
         this.dataFundacao = dataFundacao;
         this.qtdeFuncionarios = qtdeFuncionarios;
+        this.listaFrota = new ArrayList<Frota>();
 
     }
 
@@ -26,110 +33,64 @@ public class ClientePJ extends Cliente{
     public String getCnpj(){
         return cnpj;
     }
-
     public LocalDate getDataFundacao(){
         return dataFundacao;
     }
-
     public int getQtdeFuncionarios(){
         return qtdeFuncionarios;
     }
-
-    //Set da classe
-    public void setCnpj(String cnpj){
-        this.cnpj = cnpj;
+    public ArrayList<Frota> getListaFrota(){
+        return listaFrota;
     }
-
+    //calcular a idade do clientePJ
+    public int getAnosPosFundacao(){
+        LocalDate hoje = LocalDate.now();
+		int idade = hoje.getYear() - dataFundacao.getYear();
+		//se a pessoa nao fez o aniversario no ano atual ainda
+		if(dataFundacao.getMonthValue() > hoje.getMonthValue()){ //checando o mes
+			idade -= 1;
+		}
+        //como o mes é igual, checando o dia
+		else if(dataFundacao.getMonthValue() == hoje.getMonthValue() && dataFundacao.getDayOfMonth() > hoje.getDayOfMonth()){
+			idade -= 1;
+		}
+		return idade;
+    }
+    
+    //Set da classe
     public void setDataFundacao(LocalDate dataFundacao){
         this.dataFundacao = dataFundacao;
     }
-
     public void setQtdeFuncionarios(int qtdeFuncionarios){
         this.qtdeFuncionarios = qtdeFuncionarios;
+    }
+    public void setListaFrota(ArrayList<Frota> listaFrota){
+        this.listaFrota = listaFrota;
     }
 
     @Override
     //toString da classe, retorna todas as variaveis da classe
-    public String toString(){
-        return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "listaVeiculos: " + getListaVeiculos() + "\n" 
-                + "cnpj: " + cnpj + "\n" + "dataFundacao: " + dataFundacao + "\n" + "qtdeFuncionarios: " + qtdeFuncionarios + "\n";
-    }
-
-    //Valida CNPJ
-    public boolean validarCNPJ(String cnpj){
-        //deixando o cnpj apenas com numeros
-        cnpj = cnpj.replaceAll("[^0-9]", "");
-        //ver se o cnpj tem 14 digitos
-        if(cnpj.length() != 14){
-            return false;
-        }
-        //verificando se todos os digitos sao iguais
-        int ok = 0;
-		for(int i = 0; i < cnpj.length(); i++) {
-			if(i < 13 && cnpj.charAt(i) != cnpj.charAt(i+1)){
-				ok = 1;
-				break;
-			}
-		}
-		if(ok == 0){
-			return false;
-		}
-        //calculando o primeiro digito verificador
-        int soma = 0;
-        int digito1;
-        int resto;
-        soma = Character.getNumericValue(cnpj.charAt(0))*5 + 
-                Character.getNumericValue(cnpj.charAt(1))*4 + 
-                Character.getNumericValue(cnpj.charAt(2))*3 + 
-                Character.getNumericValue(cnpj.charAt(3))*2 +
-                Character.getNumericValue(cnpj.charAt(4))*9 + 
-                Character.getNumericValue(cnpj.charAt(5))*8 + 
-                Character.getNumericValue(cnpj.charAt(6))*7 + 
-                Character.getNumericValue(cnpj.charAt(7))*6 + 
-                Character.getNumericValue(cnpj.charAt(8))*5 + 
-                Character.getNumericValue(cnpj.charAt(9))*4 + 
-                Character.getNumericValue(cnpj.charAt(10))*3 + 
-                Character.getNumericValue(cnpj.charAt(11))*2;
-        resto = soma%11;
-        if(resto < 2){
-            digito1= 0;
-        }
-        else{
-            digito1 = 11-resto;
-        }
-        //calculando o segundo digito verificador
-        int digito2;
-        soma = Character.getNumericValue(cnpj.charAt(0))*6 + 
-                Character.getNumericValue(cnpj.charAt(1))*5 + 
-                Character.getNumericValue(cnpj.charAt(2))*4 + 
-                Character.getNumericValue(cnpj.charAt(3))*3 +
-                Character.getNumericValue(cnpj.charAt(4))*2 + 
-                Character.getNumericValue(cnpj.charAt(5))*9 + 
-                Character.getNumericValue(cnpj.charAt(6))*8 + 
-                Character.getNumericValue(cnpj.charAt(7))*7 + 
-                Character.getNumericValue(cnpj.charAt(8))*6 + 
-                Character.getNumericValue(cnpj.charAt(9))*5 + 
-                Character.getNumericValue(cnpj.charAt(10))*4 + 
-                Character.getNumericValue(cnpj.charAt(11))*3 + 
-                digito1*2;
-        resto = soma%11;
-        if(resto < 2){
-            digito2 = 0;
-        }
-        else{
-            digito2 = 11-resto;
-        }
-        //verificando se os digitos verificadores coincidem com o do cnpj
-        if(Character.getNumericValue(cnpj.charAt(12)) == digito1 && Character.getNumericValue(cnpj.charAt(13)) == digito2){
-            return true;
-        }
-        else{
-            return false;
-        }
+    public String toString(){ 
+        return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "telefone: " + getTelefone() + "\n" 
+                + "email: " + getEmail() + "\n" + "cnpj: " + cnpj + "\n" + "dataFundacao: " + dataFundacao + "\n" + "qtdeFuncionarios: " 
+                + qtdeFuncionarios + "\n" + "listaFrota: " + listaFrota + "\n";
     }
 
     @Override
     public double calculaScore(){
-        return CalcSeguro.VALOR_BASE.getValor() * (1 + ( qtdeFuncionarios ) /100) * getListaVeiculos().size();
+        return CalcSeguro.VALOR_BASE.getValor() * (1 + ( qtdeFuncionarios ) /100) * getListaFrota().size();
+    }
+
+    //Controle da listaFrota
+    public boolean cadastrarFrota(){
+		
+	}
+
+	public boolean ataulizarFrota(){
+		
+	}
+	
+    public boolean getVeiculosPorFrota(){
+        
     }
 }

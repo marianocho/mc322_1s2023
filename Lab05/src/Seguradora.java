@@ -1,9 +1,8 @@
 import java.time.LocalDate;
 import java.util.*;
 
-//OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK
-
 public class Seguradora {
+	private final String cnpj;
 	private String nome;
 	private String telefone;
 	private String email;
@@ -12,37 +11,43 @@ public class Seguradora {
 	private ArrayList<Cliente> listaClientes;
 	
 	//Construtor
-	public Seguradora(String nome, String telefone, String email, String endereco, 
-						ArrayList<Sinistro> listaSinistros, ArrayList<Cliente> listaClientes) {
+	public Seguradora(String cnpj, String nome, String telefone, String email, String endereco) {
+		if(Validacao.validarCNPJ(cnpj)){
+			this.cnpj =  cnpj;
+		}
+		else{
+			Scanner scan = new Scanner(System.in);
+			System.out.println("CNPJ inválido! Digite novamente: ");
+			this.cnpj = scan.next();
+			scan.close();
+		}
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
 		this.endereco = endereco;
-		this.listaSinistros = listaSinistros;
-		this.listaClientes = listaClientes;
+		this.listaSinistros = new ArrayList<Sinistro>();
+		this.listaClientes = new ArrayList<Cliente>();
 	}
 	
 	//Get da classe
+	public String getCnpj(){
+		return cnpj;
+	}
 	public String getNome() {
 		return nome;
 	}
-	
 	public String getTelefone() {
 		return telefone;
 	}
-	
 	public String getEmail() {
 		return email;
 	}
-	
 	public String getEndereco() {
 		return endereco;
 	}
-
 	public ArrayList<Sinistro> getListaSinistros(){
 		return listaSinistros;
 	}
-
 	public ArrayList<Cliente> getListaClientes(){
 		return listaClientes;
 	}
@@ -51,31 +56,59 @@ public class Seguradora {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
 	public void setListaSinistros(ArrayList<Sinistro> listaSinistros){
 		this.listaSinistros = listaSinistros;
 	}
-
 	public void setListaClientes(ArrayList<Cliente> listaClientes){
 		this.listaClientes = listaClientes;
 	}
 
 	//toString da classe
 	public String toString(){
-		return "nome: " + nome + "\n" + "telefone: " + telefone + "\n" + "email: " + email + "\n" + "endereco: " + endereco + "\n" +
-				"listaSinistros: " + listaSinistros + "\n" + "listaClientes: " + listaClientes + "\n";
+		return "cnpj: " + cnpj + "\n" + "nome: " + nome + "\n" + "telefone: " + telefone + "\n" + "email: " + email + "\n" + "endereco: " 
+				+ endereco + "\n" + "listaSinistros: " + listaSinistros + "\n" + "listaClientes: " + listaClientes + "\n";
+	}
+
+	//Listar clientes
+	public ArrayList<Cliente> listarClientes(String tipoCliente){
+		ArrayList<Cliente> listaCorrespondentes = new ArrayList<Cliente>(); 
+		//Verificar se o cliente é PF ou PJ para cada um da listaClientes
+		for(Cliente cliente : listaClientes){
+			//Se for PJ
+			if(tipoCliente == "ClientePF" && cliente instanceof ClientePF){
+				//printa
+				System.out.println(cliente);
+				//add na lista q vai retornar
+				listaCorrespondentes.add(cliente);
+			}
+			else if(tipoCliente == "ClientePJ" && cliente instanceof ClientePJ){
+				//printa
+				System.out.println(cliente);
+				//add na lista q vai retornar
+				listaCorrespondentes.add(cliente);
+			}
+		}
+
+		return listaCorrespondentes;
+	}
+	
+	//Gerar seguro novo
+	public boolean gerarSeguro(){
+
+	}
+
+	//Cancelar algum seguro
+	public boolean cancelarSeguro(){
+
 	}
 
 	//Controle de clientes
@@ -107,27 +140,12 @@ public class Seguradora {
 		return false;
 	}
 
-	//Listar clientes
-	public ArrayList<Cliente> listarClientes(String tipoCliente){
-		ArrayList<Cliente> listaCorrespondentes = new ArrayList<Cliente>(); 
-		//Verificar se o cliente é PF ou PJ para cada um da listaClientes
-		for(Cliente cliente : listaClientes){
-			//Se for PJ
-			if(tipoCliente == "ClientePF" && cliente instanceof ClientePF){
-				//printa
-				System.out.println(cliente);
-				//add na lista q vai retornar
-				listaCorrespondentes.add(cliente);
-			}
-			else if(tipoCliente == "ClientePJ" && cliente instanceof ClientePJ){
-				//printa
-				System.out.println(cliente);
-				//add na lista q vai retornar
-				listaCorrespondentes.add(cliente);
-			}
-		}
+	public ArrayList<Seguro> getSegurosPorCliente(){
 
-		return listaCorrespondentes;
+	}
+
+	public ArrayList<Sinistro> getSinistrosPorCliente(){
+		
 	}
 
 	//Funcoes de vizualicao e geracao de sinistros

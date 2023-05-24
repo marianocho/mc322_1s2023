@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class ClientePF extends Cliente{
     //variaveis do ClientePF
@@ -17,10 +18,13 @@ public class ClientePF extends Cliente{
         super(nome, endereco, telefone, email);
 		//variaveis da classe
 		if(Validacao.validarCPF(cpf)){
-			this.cpf = cpf;
+			this.cpf = cpf;		
 		}
 		else{
-			break;
+			Scanner scan = new Scanner(System.in);
+			System.out.println("CPF inválido! Digite novamente: ");
+			this.cpf = scan.next();
+			scan.close();
 		}
         this.dataNascimento = dataNascimento;
 		this.educacao = educacao;
@@ -63,16 +67,13 @@ public class ClientePF extends Cliente{
     public void setDataNascimento(LocalDate dataNascimento){
         this.dataNascimento = dataNascimento;
     }
-	public void setEducacao(LocalDate educacao) {
-		this.educacao = educacao;
-	}
 	public void setEducacao(String educacao) {
 		this.educacao = educacao;
 	}
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-	public void setListaVeiculos(String listaVeiculos){
+	public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos){
 		this.listaVeiculos = listaVeiculos;
 	}
 
@@ -80,7 +81,7 @@ public class ClientePF extends Cliente{
     //toString da classe, retorna todas as variaveis
     public String toString(){
         return "nome: " + getNome() + "\n" + "endereco: " + getEndereco() + "\n" + "telefone: " + getTelefone() + "\n"
-				+ "email: " + email + "\n" + "cpf: " + cpf + "\n" + "dataNascimento: " + dataNascimento + "\n"
+				+ "email: " + getEmail() + "\n" + "cpf: " + cpf + "\n" + "dataNascimento: " + dataNascimento + "\n"
 				+ "educacao: " + educacao + "\n" + "genero: " + genero + "\n" + "listaVeiculos: " + listaVeiculos + "\n";
     }
 

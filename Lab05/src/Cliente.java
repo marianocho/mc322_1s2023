@@ -22,7 +22,7 @@ public abstract class Cliente {
 	public String getEndereco() {
 		return endereco;
 	}
-	public String getelefone(){
+	public String getTelefone(){
 		return telefone;
 	}
 	public String getEmail(){
