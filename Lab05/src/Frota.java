@@ -5,8 +5,8 @@ public class Frota {
     ArrayList<Veiculo> listaVeiculos;
 
     //Construtora da classe
-    public Frota(String code){
-        this.code = code;
+    public Frota(){
+        this.code = gerarCode();
         this.listaVeiculos = new ArrayList<Veiculo>();
     }
 
@@ -52,15 +52,17 @@ public class Frota {
 	}
 	
     public String gerarCode(){
-        Random r = new Random();
         //String que vai de a-z
         String alph = "abcdefghijklmnopqrstuvwxyz";
-
+        //String que ira receber os caracteres aleatorios
         StringBuilder s = new StringBuilder(26);
+
         for(int i = 0; i < 8; i++){
             //gerando um numero aleatorio
-            int ch = (int)(AlphaNumericString.length() * Math.random());
+            int ch = (int)(alph.length() * Math.random());
+            s.append(alph.charAt(ch));
         }
+        return s.toString();
 
     }
 

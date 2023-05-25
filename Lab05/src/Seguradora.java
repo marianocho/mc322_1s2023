@@ -7,7 +7,7 @@ public class Seguradora {
 	private String telefone;
 	private String email;
 	private String endereco;
-	private ArrayList<Sinistro> listaSinistros;
+	private ArrayList<Seguro> listaSeguros;
 	private ArrayList<Cliente> listaClientes;
 	
 	//Construtor
@@ -25,7 +25,7 @@ public class Seguradora {
 		this.telefone = telefone;
 		this.email = email;
 		this.endereco = endereco;
-		this.listaSinistros = new ArrayList<Sinistro>();
+		this.listaSeguros = new ArrayList<Seguro>();
 		this.listaClientes = new ArrayList<Cliente>();
 	}
 	
@@ -45,8 +45,8 @@ public class Seguradora {
 	public String getEndereco() {
 		return endereco;
 	}
-	public ArrayList<Sinistro> getListaSinistros(){
-		return listaSinistros;
+	public ArrayList<Seguro> getListaSeguros(){
+		return listaSeguros;
 	}
 	public ArrayList<Cliente> getListaClientes(){
 		return listaClientes;
@@ -65,8 +65,8 @@ public class Seguradora {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	public void setListaSinistros(ArrayList<Sinistro> listaSinistros){
-		this.listaSinistros = listaSinistros;
+	public void setListaSeguros(ArrayList<Seguro> listaSeguros){
+		this.listaSeguros = listaSeguros;
 	}
 	public void setListaClientes(ArrayList<Cliente> listaClientes){
 		this.listaClientes = listaClientes;
@@ -75,7 +75,7 @@ public class Seguradora {
 	//toString da classe
 	public String toString(){
 		return "cnpj: " + cnpj + "\n" + "nome: " + nome + "\n" + "telefone: " + telefone + "\n" + "email: " + email + "\n" + "endereco: " 
-				+ endereco + "\n" + "listaSinistros: " + listaSinistros + "\n" + "listaClientes: " + listaClientes + "\n";
+				+ endereco + "\n" + "listaSeguros: " + listaSeguros + "\n" + "listaClientes: " + listaClientes + "\n";
 	}
 
 	//Listar clientes
@@ -102,13 +102,105 @@ public class Seguradora {
 	}
 	
 	//Gerar seguro novo
-	public boolean gerarSeguro(){
+	public boolean gerarSeguro(String type, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, double valorMensal){
+		Scanner scan = new Scanner(System.in);
+		//Tipo seguroPF
+		if(type.equals("PF")){
+			//Instanciando o veiculo do seguro
+			System.out.println("Qual a placa do veiculo a ser registrado?\n");
+			String placa = scan.next();
+			System.out.println("Qual a marca do veiculo a ser registrado?\n");
+			String marca = scan.next();
+			System.out.println("Qual o modelo do veiculo a ser registrado?\n");
+			String modelo = scan.next();
+			System.out.println("Qual o ano de fabricacao do veiculo a ser registrado?\n");
+			int anoFabricacao = scan.nextInt();
+			Veiculo v = new Veiculo(placa, marca, modelo, anoFabricacao);
+			//Instanciando o cliente do seguro
+			System.out.println("Qual o nome do cliente a ser registrado?\n");
+			String nome = scan.nextLine();
+			System.out.println("Qual o endereco do cliente a ser registrado?\n");
+			String endereco = scan.nextLine();
+			System.out.println("Qual o telefone do cliente a ser registrado?\n");
+			String telefone = scan.next();
+			System.out.println("Qual o email do cliente a ser registrado?\n");
+			String email = scan.next();
+			System.out.println("Qual o cpf do cliente a ser registrado?\n");
+			String cpf = scan.next();
+			//Enquanto o cpf nao for valido pedir novamente
+			while(!Validacao.validarCPF(cpf)){
+				System.out.println("CPF invalido!\n");
+				cpf = scan.next();
+			}
+			System.out.println("Qual a data de nascimento? yyyy-mm-dd\n");
+			LocalDate dataNascimento = LocalDate.parse(scan.next());
+			System.out.println("Qual a educacao do cliente a ser registrado?\n");
+			String educacao = scan.nextLine();
+			System.out.println("Qual o genero do cliente a ser registrado?\n");
+			String genero = scan.next();
+			ClientePF c = new ClientePF(nome, endereco, telefone, email, cpf, dataNascimento, educacao, genero);
+			SeguroPF segNovo = new SeguroPF(dataInicio, dataFim, seguradora, valorMensal, v, c);
+		}
+		//Tipo seguroPJ
+		else{
+			//Instanciando nova frota?
+			Frota frota = new Frota();
+			//Instanciando novo cliente
+			System.out.println("Qual o nome do cliente?\n");
+			String nome = scan.nextLine();
+			System.out.println("Qual o endereco do cliente?\n");
+			String endereco = scan.nextLine();
+			System.out.println("Qual o telefone do cliente?\n");
+			String telefone = scan.next();
+			System.out.println("Qual o email do cliente?\n");
+			String email = scan.next();
+			System.out.println("Qual o cnpj do cliente?\n");
+			String cnpj = scan.next();
+			//Validando cnpj
+			while(!Validacao.validarCNPJ(cnpj)){
+				System.out.println("CNPJ invalido!\n");
+				cnpj = scan.next();
+			}
+			System.out.println("Qual a data de fundacao? yyyy-mm-dd\n");
+			LocalDate dataFundacao = LocalDate.parse(scan.next());
+			System.out.println("Qual a quantidade de funcionarios?\n");
+			int qtdeFuncionarios = scan.nextInt();
+			ClientePJ c = new ClientePJ(nome, endereco, telefone, email, cnpj, dataFundacao, qtdeFuncionarios)
+			SeguroPJ segNovo = new SeguroPJ(dataInicio, dataFim, seguradora, valorMensal, frota, c);
+		}
 
+		//Verificando se o seguro ja existe
+		for(Seguro seg : listaSeguros){
+			if(seg == segNovo){
+				System.out.println("Seguro ja existente!\n");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	//Cancelar algum seguro
-	public boolean cancelarSeguro(){
-
+	public boolean cancelarSeguro(int idRemovido){
+		Seguro segRemover;
+		boolean existe = false;
+		for(Seguro s : listaSeguros){
+			//Se o seguro existe e é o desejado
+			if(s.getId() == idRemovido){
+				segRemover = s;
+				existe = true;
+			}
+		}
+		//Remover seguro se ele existe
+		if(existe){
+			listaSeguros.remove(segRemover);
+			System.out.println("Removido!\n");
+			return true;
+		}
+		else{
+			System.out.println("Nao existe este seguro!\n")
+			return false;
+		}
+		
 	}
 
 	//Controle de clientes
@@ -141,7 +233,7 @@ public class Seguradora {
 	}
 
 	public ArrayList<Seguro> getSegurosPorCliente(){
-
+		
 	}
 
 	public ArrayList<Sinistro> getSinistrosPorCliente(){
@@ -187,7 +279,7 @@ public class Seguradora {
 		}
 	}
 
-	//Retorna o preco do seguro do cliente desejado
+	/*//Retorna o preco do seguro do cliente desejado
 	public double calcularPrecoSeguroCliente(Cliente cliente){
 		int qtd_s = 0;
 		//calcular a quantidade de sinistros
@@ -197,13 +289,15 @@ public class Seguradora {
 			}
 		}
 		return (cliente.calculaScore() * (1 + qtd_s));
-	}
+	}*/
 
 	//Retorna o preco somado de todos os clientes da Seguradora
 	public double calcularReceita(){
 		double receita = 0.0;
-		for(Cliente c : listaClientes){
-			receita += calcularPrecoSeguroCliente(c);
+		
+		//Calculando valor de cada seguro e totalizando em receita
+		for(Seguro seg : listaSeguros){
+			receita += seg.calcularValor();
 		}
 
 		return receita;

@@ -8,12 +8,12 @@ public abstract class Seguro {
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Condutor> listaCondutores;
-    private int valorMensal;
+    private double valorMensal;
     //Primeiro idGerado é o 1, o proximo id sera idGerado++
 	private static int idGerado = 1;
 
     //Construtora da classe
-    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal){
+    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, double valorMensal){
         this.id = idGerado;
         //Gerado um id, o proximo sera id++
         idGerado++;
@@ -44,7 +44,7 @@ public abstract class Seguro {
     public ArrayList<Condutor> getListaCondutores(){
         return listaCondutores;
     }
-    public int getValorMensal(){
+    public double getValorMensal(){
         return valorMensal;
     }
 
@@ -64,7 +64,7 @@ public abstract class Seguro {
     public void setListaCondutores(ArrayList<Condutor> listaCondutores){
         this.listaCondutores = listaCondutores;
     }
-    public void setValorMensal(int valorMensal){
+    public void setValorMensal(double valorMensal){
         this.valorMensal = valorMensal;
     }
 
@@ -84,8 +84,8 @@ public abstract class Seguro {
     }
     
     //Calcula valor do seguro
-    public void calcularValor(){
-
+    public double calcularValor(){
+        return 0.0;
     }
 
     //toString da classe

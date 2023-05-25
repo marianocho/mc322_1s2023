@@ -5,12 +5,13 @@ public class SeguroPF extends Seguro{
     private Veiculo veiculo;
     private ClientePF cliente;
 
+
     //Construtora da classe
-    public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal, Veiculo veiculo, ClientePF cliente){
+    public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, double valorMensal, Veiculo veiculo, ClientePF cliente){
         //Chamando construtor da superclasse
         super(dataInicio, dataFim, seguradora, valorMensal);
-        this.veiculo = veiculo;
         this.cliente = cliente;
+        this.veiculo = veiculo;
     }
 
     //Gets da classe
@@ -45,8 +46,31 @@ public class SeguroPF extends Seguro{
     }
 
     @Override
-    public void calcularValor(){
+    public double calcularValor(){
+        //calculando o fator idade
+        double fatorIdade = 0.0;
+        if(cliente.getIdade() < 30){
+            fatorIdade = CalcSeguro.FATOR_18_30.getValor();
+        }
+        else if(cliente.getIdade() < 60){
+            fatorIdade = CalcSeguro.FATOR_30_60.getValor();
+        }
+        else{
+            fatorIdade = CalcSeguro.FATOR_60_90.getValor();
+        }
 
+        //calculando a qtd de sinistros dos condutores
+        int qtdSinCond = 0;
+        for(Condutor cond : this.getListaCondutores()){ //para cada condutor
+            for(Sinistro s : cond.getListaSinistros()){ //para cada sinistro
+                //se a seguradora do sinistro for a mesma do seguro
+                if(s.getSeguro().getSeguradora() == this.getSeguradora()){
+                    qtdSinCond++;
+                }
+            }
+        }
+        return (CalcSeguro.VALOR_BASE.getValor() * fatorIdade * (1 + 1/(cliente.getListaVeiculos().size()+2)) 
+                * (2 + this.getListaSinistros().size()/10) * (5 + qtdSinCond/10));
     }
 
     //toString da classe
