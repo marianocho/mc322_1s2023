@@ -101,10 +101,81 @@ public class Seguradora {
 		return listaCorrespondentes;
 	}
 	
+	//Lista os clientes e retorna o que o usuario escolher
+	public Cliente escolheCliente(){
+		int ind = 0;
+		int indDesejado;
+		Scanner scan = new Scanner(System.in);
+		//Lista todos clientes
+		for(Cliente c : listaClientes){
+			System.out.println(ind+". "+c.getNome()+"\n");
+			ind++;
+		}
+		System.out.println("Qual cliente deseja selecionar?\n");
+		indDesejado = scan.nextInt();
+		return listaClientes.get(indDesejado);
+	}
+
+	//Lista todos os veiculos de um cliente e retorna o que o usuario desejar
+	public Veiculo escolheVeiculo(Cliente cliente){
+		Scanner scan = new Scanner(System.in);
+		//se for pf
+		if(cliente instanceof ClientePF){
+			cliente.listarVeiculos();
+			System.out.println("Qual o numero do veiculo desejado?\n");
+			int indDesejado = scan.nextInt();
+			return cliente.getListaVeiculos().get(indDesejado);
+		}
+		else if(cliente instanceof ClientePJ){
+			//Listando a frota e seus respectivos veiculos
+			for(Frota f : cliente.getListaFrota()){
+				System.out.println("Frota: "+f.getCode()+"\n");
+				int ind = 0;
+				for(Veiculo v : f.getListaVeiculos()){
+					System.out.println(ind+". "+v.getPlaca()+"\n");
+					ind++;
+				}
+			}
+			System.out.println("Qual o codigo da frota desejada?\n");
+			String codeDesejado = scan.next();
+			System.out.println("Qual o veiculo desejado?\n");
+			int indDesejado = scan.nextInt();
+			for(Frota f : cliente.getListaFrota()){
+				if(f.getCode().equals(codeDesejado)){
+					return f.getListaVeiculos().get(indDesejado);
+				}
+			}
+		}
+
+	}
+
+
 	//Gerar seguro novo
-	public boolean gerarSeguro(String type, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, double valorMensal, Veiculo veiculo, Frota frota){
-		//Tipo seguroPF
-		if(type.equals("PF")){
+	public boolean gerarSeguro(){
+		Cliente cliDesejado = escolheCliente();
+		Veiculo vDesejado = escolheVeiculo(cliDesejado);
+		LocalDate hoje = LocalDate.now();
+		
+		//SeguroPF
+		if(cliDesejado instanceof ClientePF){
+			ClientePF cliPF = (ClientePF) cliDesejado;
+			SeguroPF segNovo = new SeguroPF(hoje, hoje.plusYears(10), this, 0, vDesejado, cliPF);
+			segNovo.setValorMensal(segNovo.calcularValor());
+		}
+		//SeguroPJ
+		else{
+			ClientePJ cliPJ = (ClientePJ) cliDesejado;
+			SeguroPJ segNovo = new SeguroPJ(hoje, hoje.plusYears(10), this, 0, cliPJ.getFrotaPorVeiculo(vDesejado), cliPJ);
+			segNovo.setValorMensal(segNovo.calcularValor());
+		}
+		//Verificando se o seguro ja existe
+		for(Seguro seg : listaSeguros){
+			if(seg == segNovo){
+				System.out.println("Seguro ja existente!\n");
+				return false;
+			}
+		}
+		return true;
 			//Instanciando o veiculo do seguro
 			//System.out.println("Qual a placa do veiculo a ser registrado?\n");
 			/*String placa = scan.next();
@@ -138,10 +209,6 @@ public class Seguradora {
 			System.out.println("Qual o genero do cliente a ser registrado?\n");
 			String genero = scan.next();
 			ClientePF c = new ClientePF(nome, endereco, telefone, email, cpf, dataNascimento, educacao, genero);*/
-			SeguroPF segNovo = new SeguroPF(dataInicio, dataFim, seguradora, valorMensal, veiculo, cliente);
-		}
-		//Tipo seguroPJ
-		else{
 			//Instanciando nova frota?
 			/*Frota frota = new Frota();
 			//Instanciando novo cliente
@@ -165,17 +232,6 @@ public class Seguradora {
 			System.out.println("Qual a quantidade de funcionarios?\n");
 			int qtdeFuncionarios = scan.nextInt();
 			ClientePJ c = new ClientePJ(nome, endereco, telefone, email, cnpj, dataFundacao, qtdeFuncionarios)*/
-			SeguroPJ segNovo = new SeguroPJ(dataInicio, dataFim, seguradora, valorMensal, frota, cliente);
-		}
-
-		//Verificando se o seguro ja existe
-		for(Seguro seg : listaSeguros){
-			if(seg == segNovo){
-				System.out.println("Seguro ja existente!\n");
-				return false;
-			}
-		}
-		return true;
 	}
 
 	//Cancelar algum seguro
@@ -231,7 +287,8 @@ public class Seguradora {
 		return false;
 	}
 
-	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente){
+	public ArrayList<Seguro> getSegurosPorCliente(){
+		Cliente cliente = escolheCliente();
 		ArrayList<Seguro> listaSegurosPorCliente = new ArrayList<Seguro>();
 		//Para cada seguro na listaSeguros
 		for(Seguro seg : listaSeguros){
@@ -244,7 +301,8 @@ public class Seguradora {
 		
 	}
 
-	public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente){
+	public ArrayList<Sinistro> getSinistrosPorCliente(){
+		Cliente cliente = escolheCliente();
 		ArrayList<Sinistro> listaSinistroPorCliente = new ArrayList<Sinistro>();
 		//Para cada seguro da listaSeguros
 		for(Seguro seg : listaSeguros){
@@ -264,16 +322,6 @@ public class Seguradora {
 			}
 		}
 		return listaSinistroPorCliente;
-	}
-
-	//Funcoes de vizualicao e geracao de sinistros
-	public boolean gerarSinistro(Veiculo veiculo, Cliente cliente, String endereco){
-		LocalDate dataSin = LocalDate.of(2023, 03, 11);
-		//Gerando sinistro
-		Sinistro novoSinistro = new Sinistro(dataSin, endereco, this, veiculo, cliente);
-		listaSinistros.add(novoSinistro);
-		System.out.println("Sinistro gerado!");
-		return true;
 	}
 
 	//Printa o sinistro do cliente desejado

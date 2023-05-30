@@ -126,8 +126,10 @@ public class ClientePF extends Cliente{
 	}
 	
 	public void listarVeiculos(){
+		int ind = 0;
 		for(Veiculo v : listaVeiculos){
-			System.out.println(v);
+			System.out.println(ind+". "+v+"\n");
+			ind++;
 		}
 	}
 }

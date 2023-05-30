@@ -128,6 +128,8 @@ public class ClientePJ extends Cliente{
             return false;
         }
         
+        return false;
+
 	}
 	
     public ArrayList<Veiculo> getVeiculosPorFrota(String code){
@@ -137,5 +139,19 @@ public class ClientePJ extends Cliente{
                 return f.getListaVeiculos();
             }
         }
+
+        return new ArrayList<Veiculo>();
+    }
+
+    //Retorna a frota em que tal veiculo esta
+    public Frota getFrotaPorVeiculo(Veiculo veiculo){
+        for(Frota f : listaFrota){
+            for(Veiculo v : f.getListaVeiculos()){
+                if(v == veiculo){
+                    return f;
+                }
+            }
+        }
+        return null;
     }
 }
