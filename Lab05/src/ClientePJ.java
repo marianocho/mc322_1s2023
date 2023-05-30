@@ -83,14 +83,59 @@ public class ClientePJ extends Cliente{
 
     //Controle da listaFrota
     public boolean cadastrarFrota(){
-		
+		Frota frota = new Frota();
+        this.listaFrota.add(frota);
+        return true;
 	}
 
-	public boolean ataulizarFrota(){
-		
+	public boolean atualizarFrota(String comando, Veiculo v, String code){
+        //Adicionar veiculo na frota
+        if(comando.equals("A")){
+            //Achar a frota desejada
+            for(Frota f : listaFrota){
+                if(code.equals(f.getCode())){
+                    f.getListaVeiculos().add(v); //add o veiculo
+                    return true;
+                }
+            }
+        }
+        //Remover veiculo da frota
+        else if(comando.equals("R")){
+            //Achar a frota desejada
+            for(Frota f : listaFrota){
+                if(code.equals(f.getCode())){
+                 //rmv o veiculo
+                    if(f.removeVeiculo(v)){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            }
+        }
+        //Remover frota
+        else if(comando.equals("RF")){
+            for(Frota f : listaFrota){
+                if(code.equals(f.getCode())){
+                    listaFrota.remove(f);
+                    return true;
+                }
+            }
+        }
+        else{
+            System.out.println("Comando invalido!\n");
+            return false;
+        }
+        
 	}
 	
-    public boolean getVeiculosPorFrota(){
-        
+    public ArrayList<Veiculo> getVeiculosPorFrota(String code){
+        for(Frota f : listaFrota){
+            //se for a frota desejada
+            if(f.getCode() == code){
+                return f.getListaVeiculos();
+            }
+        }
     }
 }

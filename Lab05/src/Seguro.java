@@ -70,17 +70,26 @@ public abstract class Seguro {
 
     //----------FUNCOES POLIMORFAS--------------
 
-    //Autorizacao/Desautorizacao do condutor
+    //Autorizacao/Desautorizacao do condutor que sera sobrescrita nas subsclasses
     public boolean autorizarCondutor(){
-
+        return true;
     }
     public boolean desautorizarCondutor(){
-
+        return false;
     }
 
     //Gera sinistro
-    public void gerarSinistro(){
-
+    public void gerarSinistro(LocalDate data, String endereco, Condutor condutor){
+        //Criando o novo sinistro
+        Sinistro novoSinistro = new Sinistro(data, endereco, condutor, this);
+        //Adicionando o sinistro na listaSinistro do seguro
+        listaSinistros.add(novoSinistro);
+        //Adicionando o sinistro na listaSinistro do condutor
+        for(Condutor cond : listaCondutores){
+            if(cond == condutor){
+                cond.getListaSinistros().add(novoSinistro);
+            }
+        }
     }
     
     //Calcula valor do seguro

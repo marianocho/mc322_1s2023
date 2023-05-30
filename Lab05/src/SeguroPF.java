@@ -32,17 +32,12 @@ public class SeguroPF extends Seguro{
 
     @Override
     public boolean autorizarCondutor() {
-
+        this.cliente.getAutorizacao() = true;
     }
 
     @Override
     public boolean desautorizarCondutor(){
-
-    }
-
-    @Override
-    public void gerarSinistro(){
-
+        this.cliente.getAutorizacao() = false;
     }
 
     @Override

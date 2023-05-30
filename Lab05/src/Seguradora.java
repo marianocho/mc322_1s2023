@@ -102,13 +102,12 @@ public class Seguradora {
 	}
 	
 	//Gerar seguro novo
-	public boolean gerarSeguro(String type, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, double valorMensal){
-		Scanner scan = new Scanner(System.in);
+	public boolean gerarSeguro(String type, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, double valorMensal, Veiculo veiculo, Frota frota){
 		//Tipo seguroPF
 		if(type.equals("PF")){
 			//Instanciando o veiculo do seguro
-			System.out.println("Qual a placa do veiculo a ser registrado?\n");
-			String placa = scan.next();
+			//System.out.println("Qual a placa do veiculo a ser registrado?\n");
+			/*String placa = scan.next();
 			System.out.println("Qual a marca do veiculo a ser registrado?\n");
 			String marca = scan.next();
 			System.out.println("Qual o modelo do veiculo a ser registrado?\n");
@@ -138,13 +137,13 @@ public class Seguradora {
 			String educacao = scan.nextLine();
 			System.out.println("Qual o genero do cliente a ser registrado?\n");
 			String genero = scan.next();
-			ClientePF c = new ClientePF(nome, endereco, telefone, email, cpf, dataNascimento, educacao, genero);
-			SeguroPF segNovo = new SeguroPF(dataInicio, dataFim, seguradora, valorMensal, v, c);
+			ClientePF c = new ClientePF(nome, endereco, telefone, email, cpf, dataNascimento, educacao, genero);*/
+			SeguroPF segNovo = new SeguroPF(dataInicio, dataFim, seguradora, valorMensal, veiculo, cliente);
 		}
 		//Tipo seguroPJ
 		else{
 			//Instanciando nova frota?
-			Frota frota = new Frota();
+			/*Frota frota = new Frota();
 			//Instanciando novo cliente
 			System.out.println("Qual o nome do cliente?\n");
 			String nome = scan.nextLine();
@@ -165,8 +164,8 @@ public class Seguradora {
 			LocalDate dataFundacao = LocalDate.parse(scan.next());
 			System.out.println("Qual a quantidade de funcionarios?\n");
 			int qtdeFuncionarios = scan.nextInt();
-			ClientePJ c = new ClientePJ(nome, endereco, telefone, email, cnpj, dataFundacao, qtdeFuncionarios)
-			SeguroPJ segNovo = new SeguroPJ(dataInicio, dataFim, seguradora, valorMensal, frota, c);
+			ClientePJ c = new ClientePJ(nome, endereco, telefone, email, cnpj, dataFundacao, qtdeFuncionarios)*/
+			SeguroPJ segNovo = new SeguroPJ(dataInicio, dataFim, seguradora, valorMensal, frota, cliente);
 		}
 
 		//Verificando se o seguro ja existe
@@ -232,12 +231,39 @@ public class Seguradora {
 		return false;
 	}
 
-	public ArrayList<Seguro> getSegurosPorCliente(){
+	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente){
+		ArrayList<Seguro> listaSegurosPorCliente = new ArrayList<Seguro>();
+		//Para cada seguro na listaSeguros
+		for(Seguro seg : listaSeguros){
+			//Ver se eh o cliente desejado
+			if(cliente = seg.getCliente()){
+				listaSegurosPorCliente.add(seg);
+			}
+		}
+		return listaSegurosPorCliente;
 		
 	}
 
-	public ArrayList<Sinistro> getSinistrosPorCliente(){
-		
+	public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente){
+		ArrayList<Sinistro> listaSinistroPorCliente = new ArrayList<Sinistro>();
+		//Para cada seguro da listaSeguros
+		for(Seguro seg : listaSeguros){
+			//Caso que o seguro e o cliente sao PF, e o cliente é o mesmo do seguro
+			if(seg instanceof SeguroPF && cliente instanceof ClientePF && seg.getCliente() == cliente){
+				//Juntar a listaSinistros na lista que iremos retornar
+				for(Sinistro sin : seg.getListaSinistros()){
+					listaSinistroPorCliente.add(sin);					
+				}
+			}
+			//Caso que o seguro e o cliente sao PJ
+			else if(seg instanceof SeguroPJ && cliente instanceof ClientePJ && seg.getCliente() == cliente){
+				//Juntar a listaSinistros na lista que iremos retornar
+				for(Sinistro sin : seg.getListaSinistros()){
+					listaSinistroPorCliente.add(sin);					
+				}
+			}
+		}
+		return listaSinistroPorCliente;
 	}
 
 	//Funcoes de vizualicao e geracao de sinistros
