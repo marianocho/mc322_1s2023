@@ -17,15 +17,7 @@ public class ClientePF extends Cliente{
         //chama o construtor da superclasse
         super(nome, endereco, telefone, email);
 		//variaveis da classe
-		if(Validacao.validarCPF(cpf)){
-			this.cpf = cpf;		
-		}
-		else{
-			Scanner scan = new Scanner(System.in);
-			System.out.println("CPF inválido! Digite novamente: ");
-			this.cpf = scan.next();
-			scan.close();
-		}
+		this.cpf = cpf; //Validar cpf quando for obter ele
         this.dataNascimento = dataNascimento;
 		this.educacao = educacao;
 		this.genero = genero;

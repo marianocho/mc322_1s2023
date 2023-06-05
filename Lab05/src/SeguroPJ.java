@@ -28,14 +28,12 @@ public class SeguroPJ extends Seguro {
         this.cliente = cliente;
     }
 
-    @Override
-    public boolean autorizarCondutor(){
-        this.cliente.getAutorizacao() = true;
+    public void autorizarCondutor(){
+        cliente.setAutorizacao(true);
     }
 
-    @Override
-    public boolean desautorizarCondutor(){
-        this.cliente.getAutorizacao() = false;
+    public void desautorizarCondutor(){
+        cliente.setAutorizacao(false);
     }
 
     @Override
@@ -57,6 +55,6 @@ public class SeguroPJ extends Seguro {
     //toString da classe
     @Override
     public String toString(){
-        return super.toString() + "frota: " + frota + "\n" + "cliente: " + cliente + "\n";
+        return super.toString() + "frota: " + frota + "\n" + "cliente: " + cliente.getNome() + "\n";
     }
 }

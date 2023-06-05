@@ -70,14 +70,6 @@ public abstract class Seguro {
 
     //----------FUNCOES POLIMORFAS--------------
 
-    //Autorizacao/Desautorizacao do condutor que sera sobrescrita nas subsclasses
-    public boolean autorizarCondutor(){
-        return true;
-    }
-    public boolean desautorizarCondutor(){
-        return false;
-    }
-
     //Gera sinistro
     public void gerarSinistro(LocalDate data, String endereco, Condutor condutor){
         //Criando o novo sinistro
@@ -99,8 +91,8 @@ public abstract class Seguro {
 
     //toString da classe
     public String toString(){
-        return "id: " + id + "\n" + "dataInicio: " + dataInicio + "\n" + "dataFim: " + dataFim + "\n" + "seguradora: " + seguradora + "\n" + 
-            "listaSinistros: " + listaSinistros + "\n" + "listaCondutores: " + listaCondutores + "\n" + "valorMensal: " + valorMensal + "\n";
+        return "id: " + id + "\n" + "dataInicio: " + dataInicio + "\n" + "dataFim: " + dataFim + "\n" + "seguradora: " + seguradora.getNome() + "\n" + 
+            "Quantidade de Sinistros: " + listaSinistros.size() + "\n" + "listaCondutores: " + listaCondutores + "\n" + "valorMensal: " + valorMensal + "\n";
     }
 
 }

@@ -13,16 +13,7 @@ public class ClientePJ extends Cliente{
 
         //chama o construtor da superclasse
         super(nome, endereco, telefone, email);
-        //Verificando cnpj
-        if(Validacao.validarCNPJ(cnpj)){
-            this.cnpj =  cnpj;
-        }
-        else{
-            Scanner scan = new Scanner(System.in);
-            System.out.println("CNPJ inválido! Digite novamente: ");
-            this.cnpj = scan.next();
-            scan.close();
-        }
+        this.cnpj =  cnpj; //validar cnpj quando for obter ele
         this.dataFundacao = dataFundacao;
         this.qtdeFuncionarios = qtdeFuncionarios;
         this.listaFrota = new ArrayList<Frota>();
@@ -87,6 +78,16 @@ public class ClientePJ extends Cliente{
         this.listaFrota.add(frota);
         return true;
 	}
+
+    public String escolheFrota(ClientePJ cliente){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Qual o codigo da frota desejada?\n");
+        for(Frota f : cliente.getListaFrota()){
+            System.out.println(f);
+        }
+
+        return scan.next();
+    }
 
 	public boolean atualizarFrota(String comando, Veiculo v, String code){
         //Adicionar veiculo na frota
