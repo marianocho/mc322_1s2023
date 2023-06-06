@@ -113,7 +113,13 @@ public class Seguradora {
 		}
 		System.out.println("Qual o numero do cliente que deseja selecionar?\n");
 		indDesejado = scan.nextInt();
-		return listaClientes.get(indDesejado);
+		if(indDesejado < listaClientes.size()){
+			return listaClientes.get(indDesejado);
+		}
+		else{
+			System.out.println("Nao existe esse numero!\n");
+			return null;
+		}
 	}
 
 	//Lista todos os veiculos de um cliente e retorna o que o usuario desejar
@@ -125,7 +131,12 @@ public class Seguradora {
 			clipf.listarVeiculos();
 			System.out.println("Qual o numero do veiculo desejado?\n");
 			int indDesejado = scan.nextInt();
-			return clipf.getListaVeiculos().get(indDesejado);
+			if(indDesejado < clipf.getListaVeiculos().size()){
+				return clipf.getListaVeiculos().get(indDesejado);
+			}
+			else{
+				return null;
+			}
 		}
 		else if(cliente instanceof ClientePJ){
 			ClientePJ clipj = (ClientePJ) cliente;
@@ -140,8 +151,11 @@ public class Seguradora {
 			}
 			System.out.println("Qual o codigo da frota desejada?\n");
 			String codeDesejado = scan.next();
-			System.out.println("Qual o veiculo desejado?\n");
+			System.out.println("Qual o numero do veiculo desejado? Se nao houver digite -1\n");
 			int indDesejado = scan.nextInt();
+			if(indDesejado== -1){
+				return null;
+			}
 			for(Frota f : clipj.getListaFrota()){
 				if(f.getCode().equals(codeDesejado)){
 					return f.getListaVeiculos().get(indDesejado);
@@ -151,6 +165,25 @@ public class Seguradora {
 		return null;
 	}
 
+	//Lista todos os seguros e retorna o que o usuario quiser
+	public Seguro escolheSeguro(){
+		int ind = 0;
+		Scanner scan = new Scanner(System.in);
+		for(Seguro seguro : listaSeguros){
+			System.out.println(ind + ": " + seguro + "\n");
+			ind++;
+		}
+		System.out.println("Qual o numero do seguro que voce deseja? obs: nao eh o id que esta sendo pedido\n");
+		int indice = scan.nextInt();
+		if(indice < listaSeguros.size()){
+			return listaSeguros.get(indice);
+		}
+		else{
+			System.out.println("Esse numero nao existe!\n");
+			return null;
+		}
+	}
+	
 	//Gerar seguro novo
 	public boolean gerarSeguro(Cliente cliDesejado, Veiculo vDesejado){
 		LocalDate hoje = LocalDate.now();

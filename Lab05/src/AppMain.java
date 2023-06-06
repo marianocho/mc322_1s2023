@@ -30,6 +30,7 @@ public class AppMain {
         System.out.println("Cadastrar ClientePF ou ClientePJ? PF/PJ");
         Scanner info = new Scanner(System.in);
         if(info.next().equals("PF")){
+            System.out.println("Qual o cpf?\n");
             //Obtendo cpf
             String cpfCadastrado = info.next();
             //Validando cpf
@@ -65,6 +66,7 @@ public class AppMain {
             return cliPF;
         }
         else{
+            System.out.println("Qual o cnpj?\n");
             //Obtendo cnpj
             String cnpjCadastrado = info.next();
             //Validando cnpj
@@ -98,8 +100,40 @@ public class AppMain {
             return cliPJ;
         }
     }
+    public static Condutor gerarCondutor(){
+        Scanner info = new Scanner(System.in);
+        System.out.println("Qual o cpf?\n");
+        //Obtendo cpf
+        String cpfCadastrado = info.next();
+        //Validando cpf
+        while(!Validacao.validarCPF(cpfCadastrado)){
+            System.out.println("CPF invalido!Digite novamente");
+            cpfCadastrado = info.next();
+        }
+        
+        Condutor condutor = new Condutor(cpfCadastrado, null, null, null, null, null, new ArrayList<Sinistro>());
+        //NOME
+        System.out.println("Qual o nome? Digite '_' ao inves de barra de espaco\n");
+        condutor.setNome(info.next());
+        //TELEFONE
+        System.out.println("Qual o numero de telefone?\n");
+        condutor.setTelefone(info.next());
+        //ENDERECO
+        System.out.println("Qual o endereco do condutor? Digite '_' ao inves de barra de espaco\n");
+        condutor.setEndereco(info.next());
+        //EMAIL
+        System.out.println("Qual o email?\n");
+        condutor.setEmail(info.next());
+        //DATA DE NASCIMENTO
+        System.out.println("Qual a data de nascimento?yyyy-mm-dd\n");
+        LocalDate data = LocalDate.parse(info.next());
+        condutor.setDataNasc(data);
+        return condutor;
+    }
+    
     //funcao de checar caso
     public static void qualOperacaoPrincipal(MenuOperacoes operacao, ArrayList<Seguradora> listaSeg, int ind){
+        Seguradora seguradora = listaSeg.get(ind);
         switch(operacao){
             //cadastrar (1)
             case CADASTRAR:
@@ -181,6 +215,7 @@ public class AppMain {
                     }
                     else if(comandoC == 5){
                         Scanner info = new Scanner(System.in);
+                        System.out.println("Qual o cpf?\n");
                         //Obtendo cpf
                         String cpfCadastrado = info.next();
                         //Validando cpf
@@ -211,6 +246,10 @@ public class AppMain {
                         //Obtendo dataNascimento
                         System.out.println("Digite a data de nascimento: yyyy-mm-dd\n");
                         condutor.setDataNasc(LocalDate.parse(info.next()));
+
+                        System.out.println("Em qual seguro deseja adicionar o condutor?\n");
+                        Seguro segCond = seguradora.escolheSeguro();
+                        segCond.getListaCondutores().add(condutor);
                     }
                     if(comandoC!=6){
                         System.out.println("1.1 - Cadastrar Cliente\n1.2 - Cadastrar Veiculo\n1.3 - Cadastrar Seguradora\n1.4 - Cadastrar Frota\n1.5 - Cadastrar condutor\n1.6 - Voltar");
@@ -219,11 +258,11 @@ public class AppMain {
                 break;
             //listar (2)
             case LISTAR:
-                System.out.println("2.1 - Listar Cliente (PF/PJ) por Seguradora\n2.2 - Listar Seguros por Seguradora\n2.3 - Listar Seguros por Cliente\n2.4 - Listar Sinistros por Cliente\n2.5 - Listar Veiculo por Cliente\n2.6 - Listar Frota por Cliente\n2.7 - Listar Sinistros por Seguro\n2.8 - Listar Condutores por Seguro\n2.9- Listar Sinistros por Condutor\n2.10 - Listar Seguradoras\n2.11 - Voltar\n");
+                System.out.println("2.1 - Listar Cliente (PF/PJ) por Seguradora\n2.2 - Listar Seguros por Seguradora\n2.3 - Listar Seguros por Cliente\n2.4 - Listar Sinistros por Cliente\n2.5 - Listar Veiculo por Cliente\n2.6 - Listar Frota por Cliente\n2.7 - Listar Sinistros por Seguro\n2.8 - Listar Condutores por Seguro\n2.9 - Listar Seguradoras\n2.10 - Voltar\n");
                 int comandoL = 0;
                 Scanner scanL = new Scanner(System.in);
                 //Enquanto nao voltar
-                while(comandoL != 11){
+                while(comandoL != 10){
                     //pergunta qual opcao o usuario quer
                     System.out.println("Qual acao 2.x voce deseja tomar? x = ?\n");
                     comandoL = scanL.nextInt();
@@ -304,18 +343,30 @@ public class AppMain {
                     }
                     else if(comandoL == 7){
                         //Listar sinistros por seguro
+                        Seguradora s = listaSeg.get(ind);
+                        Seguro seguro = s.escolheSeguro();
+                        System.out.println(seguro.getListaSinistros());
                     }
-                    if(comandoL!=11){
-                        System.out.println("2.1 - Listar Cliente (PF/PJ) por Seguradora\n2.2 - Listar Sinistros por Seguradora\n2.3 - Listar Sinistro por Cliente\n2.4 - Listar Veiculo por Cliente\n2.5 - Listar Veiculo por Seguradora\n2.6 - Voltar\n");
+                    else if(comandoL == 8){
+                        //Listar condutores por seguro
+                        Seguradora s = listaSeg.get(ind);
+                        Seguro seguro = s.escolheSeguro();
+                        System.out.println(seguro.getListaCondutores());
+                    }
+                    else if(comandoL == 9){
+                        System.out.println(listaSeg);
+                    }
+                    if(comandoL!=10){
+                        System.out.println("2.1 - Listar Cliente (PF/PJ) por Seguradora\n2.2 - Listar Seguros por Seguradora\n2.3 - Listar Seguros por Cliente\n2.4 - Listar Sinistros por Cliente\n2.5 - Listar Veiculo por Cliente\n2.6 - Listar Frota por Cliente\n2.7 - Listar Sinistros por Seguro\n2.8 - Listar Condutores por Seguro\n2.9 - Listar Seguradoras\n2.10 - Voltar\n");
                     }
                 }
                 break;
             //excluir (3)
             case EXCLUIR:
-                System.out.println("3.1 - Excluir Cliente\n3.2 - Excluir Veiculo\n3.3 - Excluir Sinistro\n3.4 - Voltar");
+                System.out.println("3.1 - Excluir Cliente\n3.2 - Excluir Veiculo\n3.3 - Excluir Sinistro\n3.4 - Excluir Frota\n3.5 - Excluir Seguro\n3.6 - Voltar");
                 int comandoE = 0;
                 Scanner scanE = new Scanner(System.in);
-                while(comandoE != 4){
+                while(comandoE != 6){
                     Scanner info = new Scanner(System.in);
                     //pergunta qual opcao o usuario quer
                     System.out.println("Qual acao 3.x voce deseja tomar? x = ?\n");
@@ -324,6 +375,10 @@ public class AppMain {
                         int removido = 0;
                         //Pegar o nome do cliente desejado
                         System.out.println("Nome do cliente a ser removido\n");
+                        //Listar clientes
+                        for(Cliente c : seguradora.getListaClientes()){
+                            System.out.println(c.getNome()+"\n");
+                        }
                         String cliDesejado = info.next();
                         //Excluir cliente
                         for(Seguradora s : listaSeg){ //Para cada seguradora
@@ -340,39 +395,44 @@ public class AppMain {
                         }
                     }
                     else if(comandoE == 2){
-                        System.out.println("Qual a placa do veiculo a ser removido?\n");
-                        String vDesejado = info.next();
+                        Seguradora s = listaSeg.get(ind);
+                        Cliente clienteDesejado = s.escolheCliente();
+                        Veiculo vDesejado = s.escolheVeiculo(clienteDesejado);
                         //Excluir veiculo
-                        int removido = 0;
-                        for(Seguradora s : listaSeg){ //Para cada seguradora
-                            for(Cliente c : s.getListaClientes()){ //Para cada cliente
-                                /*for(Veiculo v : c.getListaVeiculos()){ //Para cada veiculo desse cliente
-                                    if(v.getPlaca().equals(vDesejado)){ //Achamos o veiculo a ser removido
-                                        c.removeVeiculo(v);
-                                        removido = 1;
-                                        break;
-                                    }
-                                }
-                                if(removido == 1){
+                        for(Cliente cliente : s.getListaClientes()){
+                            if(cliente == clienteDesejado){ //É o cliente desejado
+                                if(cliente instanceof ClientePF){
+                                    ClientePF cliPF = (ClientePF) cliente; //Downcasting
+                                    cliPF.removeVeiculo(vDesejado);
                                     break;
                                 }
-                            }*/
-                            /*if(removido == 1){
-                                break;
-                            }*/
+                                else if(cliente instanceof ClientePJ){
+                                    ClientePJ cliPJ = (ClientePJ) cliente; //Downcasting
+                                    Frota frota = cliPJ.getFrotaPorVeiculo(vDesejado); //Obter o codigo da frota que contem o veiculo a ser removido
+                                    cliPJ.atualizarFrota("R", vDesejado, frota.getCode());
+                                    break;
+                                }
                             }
                         }
                     }
                     else if(comandoE == 3){
                         //Excluir sinistro
-                        System.out.println("ID do sinistro a ser removido\n");
-                        int IDrmv = info.nextInt();
+                        Scanner scan = new Scanner(System.in);
+                        Seguradora s = listaSeg.get(ind);
                         int removido = 0;
-                        /*for(Seguradora seg : listaSeg){ //Para cada seguradora
-                            for(Sinistro sin : seg.getListaSinistros()){ //Para cada sinistro dessa seguradora
-                                if(sin.getId() == IDrmv){ //Achamos o id do sinistro a ser removido
-                                    seg.getListaSinistros().remove(sin);
-                                    System.out.println("Sinistro removido!\n");
+
+                        ArrayList<Sinistro> listaSin = s.getSinistrosPorCliente();
+                        for(Sinistro sinistro : listaSin){
+                            System.out.println(sinistro+"\n");
+                        }
+
+                        System.out.println("Qual o id do sinistro que deseja remover?\n");
+                        int idDesejado = scan.nextInt();
+
+                        for(Seguro seguro : s.getListaSeguros()){ //Para cada seguro da seguradora
+                            for(Sinistro sinistro : seguro.getListaSinistros()){ //Para cada sinistro do seguro
+                                if(sinistro.getId() == idDesejado){
+                                    seguro.getListaSinistros().remove(sinistro);
                                     removido = 1;
                                     break;
                                 }
@@ -380,106 +440,128 @@ public class AppMain {
                             if(removido == 1){
                                 break;
                             }
-                        }*/
+                        }
                     }
-                    if(comandoE!=4){
-                        System.out.println("3.1 - Excluir Cliente\n3.2 - Excluir Veiculo\n3.3 - Excluir Sinistro\n3.4 - Voltar");
+                    else if(comandoE == 4){
+                        //Excluir frota
+                        Seguradora s = listaSeg.get(ind);
+                        Cliente cliente = s.escolheCliente();
+                        if(cliente instanceof ClientePJ){
+                            ClientePJ cliPJ = (ClientePJ) cliente;
+                            String codigo = cliPJ.escolheFrota(cliPJ); //Escolhendo frota
+                            cliPJ.atualizarFrota("RF", null, codigo);
+                        }
+                        else{
+                            System.out.println("Este tipo de cliente nao possui frota!\n");
+                        }
+                    }
+                    else if(comandoE == 5){
+                        //Excluir seguro
+                        Seguradora s = listaSeg.get(ind);
+                        Seguro seguro = s.escolheSeguro();
+                        s.getListaSeguros().remove(seguro);
+                    }
+                    if(comandoE!=6){
+                        System.out.println("3.1 - Excluir Cliente\n3.2 - Excluir Veiculo\n3.3 - Excluir Sinistro\n3.4 - Exclui Frota\n3.5 - Excluir Seguro\n3.6 - Voltar");
                     }
                 }
                 break;
             //gerar sinistro (4)
             case GERAR_SINISTRO:
                 Scanner scan = new Scanner(System.in);
-                //Recebendo o veiculo do sinistro
-                System.out.println("Qual a placa do veiculo envolvido no sinistro?\n");
-                String vSin = scan.next();
-                //Recebendo o cliente do sinistro 
-                System.out.println("Quem é o dono do veiculo?\n");
-                String cSin = scan.next();
-                //Recebendo o endereco do sinistro
-                System.out.println("Onde ocorreu o sinistro?\n");
-                String endSin = scan.next();
-                //Procurando objeto cliente que correponde cSin
-                int gerado = 0;
-                /*for(Cliente c : listaSeg.get(ind).getListaClientes()){
-                    if(c.getNome().equals(cSin)){
-                        //Procurando o objeto veiculo que corresponde vSin, o qual cSin é dono
-                        for(Veiculo v : c.getListaVeiculos()){
-                            if(v.getPlaca().equals(vSin)){
-                                //gerar sinistro com esse cliente e esse veiculo
-                                listaSeg.get(ind).gerarSinistro(v, c, endSin);
-                                gerado = 1;
-                                break;
-                            }
-                        }
-                        if(gerado == 1){
-                            break;
-                        }
-                    }
-                }*/
-            break;
+                Seguradora s = listaSeg.get(ind);
+                Seguro seguro = s.escolheSeguro();
+                //DATA
+                System.out.println("Qual a data do sinistro?yyyy-mm-dd\n");
+                LocalDate data = LocalDate.parse(scan.next());
+                //ENDERECO
+                System.out.println("Qual o endereco do sinistro? obs: digite '_' ao inves de barra de espaco\n");
+                String endereco = scan.next();
+                //CONDUTOR
+                Condutor condutor = gerarCondutor();
+                //GERANDO SINISTRO
+                seguro.gerarSinistro(data, endereco, condutor);
+                break;
                 
             //transferir seguro (5)
             case TRANSFERIR_SEGURO:
-                //recebendo o que vai transferir
-                Scanner scan1 = new Scanner(System.in);
-                System.out.println("Digite o cliente que irá transferir:\n");
-                String cliente_transf = scan1.next();
-                int existe = 0;
-                //Vendo se ele existe
-                for(Seguradora s : listaSeg){ //Para cada seguradora
-                    for(Cliente c : s.getListaClientes()){ //Para cada cliente da seguradora
-                        if(c.getNome().equals(cliente_transf)){ //Se existe o cliente
-                            existe = 1;
-                        }
-                    }
-                }
-                if(existe == 0){ //Se nao existe
-                    System.out.println("Nao existe!\n");
+                System.out.println("Escolha o cliente que ira transferir\n");
+                Cliente clienteTransf = seguradora.escolheCliente();
+                System.out.println("Escolha o cliente que ira receber\n");
+                Cliente clienteRecebe = seguradora.escolheCliente();
+                if(clienteRecebe == clienteTransf){
+                    System.out.println("Os clientes sao os mesmos!\n");
                     break;
                 }
-                //recebendo o que vai receber
-                existe = 0;
-                System.out.println("Digite o cliente que irá receber:\n");
-                String cliente_recebe = scan1.next();
-                //Vendo se ele existe
-                for(Seguradora s : listaSeg){ //Para cada seguradora
-                    for(Cliente c : s.getListaClientes()){ //Para cada cliente da seguradora
-                        if(c.getNome().equals(cliente_recebe)){ //Se existe o cliente
-                            existe = 1;
-                        }
-                    }
-                }
-                if(existe == 0){ //Se nao existe
-                    System.out.println("Nao existe!\n");
-                    break;
-                }
-                //Procurando o cliente_transf
-                Cliente ct = null;
-                for(Cliente c : listaSeg.get(ind).getListaClientes()){
-                    if(c.getNome().equals(cliente_transf)){
-                        ct = c;
-                    }
-                }
-                //Procurando o cliente que vai receber
-                /*for(Cliente c : listaSeg.get(ind).getListaClientes()){
-                    if(c.getNome().equals(cliente_recebe)){
-                        //Transferindo os veiculos para ele
-                        for(Veiculo v : ct.getListaVeiculos()){
-                            c.getListaVeiculos().add(v);
-                        }
-                        //Esvaziando a lista do cliente_transf
-                        ct.setListaVeiculos(new ArrayList<Veiculo>());
+
+                Seguro seguroTransf = seguradora.escolheSeguro();
+                //CLIENTEPF --SEGURO--> CLIENTEPF2
+                if(seguroTransf instanceof SeguroPF && clienteTransf instanceof ClientePF){
+                    SeguroPF segTPF = (SeguroPF) seguroTransf; //Downcasting
+                    ClientePF cliPF = (ClientePF) clienteTransf; //Downcasting do cliente que vai transferir
+                    //Vendo se o cliente do seguro é o mesmo que vai transferir
+                    if(segTPF.getCliente() != cliPF){
+                        System.out.println("O seguro nao pertence ao cliente!\n");
                         break;
                     }
+                    //Transferir
+                    if(clienteRecebe instanceof ClientePF){
+                        ClientePF cliRPF = (ClientePF) clienteRecebe;//Downcasting
+                        segTPF.setClientePF(cliRPF);
+                    }
+                    else{
+                        System.out.println("O tipo do cliente que vai receber o seguro nao eh o mesmo do que ira transferir!\n");
+                    }
                 }
-                break;*/
-            
+                //CLIENTEPJ --SEGURO--> CLIENTEPJ2
+                else if(seguroTransf instanceof SeguroPJ && clienteTransf instanceof ClientePJ){
+                    SeguroPJ segTPJ = (SeguroPJ) seguroTransf; //Downcasting
+                    ClientePJ cliPJ = (ClientePJ) clienteTransf; //Downcasting do cliente que vai transferir
+                    //Vendo se o cliente do seguro é o mesmo que vai transferir
+                    if(segTPJ.getCliente() != cliPJ){
+                        System.out.println("O seguro nao pertence ao cliente!\n");
+                        break;
+                    }
+                    //Transferir
+                    if(clienteRecebe instanceof ClientePJ){
+                        ClientePJ cliRPJ = (ClientePJ) clienteRecebe;//Downcasting
+                        segTPJ.setCliente(cliRPJ);
+                    }
+                    else{
+                        System.out.println("O tipo do cliente que vai receber o seguro nao eh o mesmo do que ira transferir!\n");
+                    }
+                }
+                break;
             //calcular receita seguradora (6)
             case CALCULAR_RECEITA_SEGURADORA:
                 System.out.println("Receita: " + listaSeg.get(ind).calcularReceita() + "\n");
                 break;
             //sair (0)
+            case AUTORIZACAO_CONDUTOR:
+                System.out.println("Escolha o seguro, cujo condutor principal vai ser autorizado ou desautorizado\n");
+                Seguro seg = seguradora.escolheSeguro(); //s é seguradora
+                System.out.println("Voce deseja autorizar ou desautorizar o condutor? A/D\n");
+                Scanner info = new Scanner(System.in);
+                String resposta = info.next();
+                if(seg instanceof SeguroPF){
+                    SeguroPF segPF = (SeguroPF) seg; //Downcasting
+                    if(resposta.equals("A")){
+                        segPF.autorizarCondutor();
+                    }
+                    else{
+                        segPF.desautorizarCondutor();
+                    }
+                }
+                else{
+                    SeguroPJ segPJ = (SeguroPJ) seg; //Downcasting
+                    if(resposta.equals("A")){
+                        segPJ.autorizarCondutor();
+                    }
+                    else{
+                        segPJ.desautorizarCondutor();
+                    }
+                }
+                break;
             case SAIR:
                 System.exit(0);
         }
@@ -576,7 +658,7 @@ public class AppMain {
         listaSeg.add(seguradora2);
 
         //-----------MENU INTERATIVO--------------
-        System.out.println("1 - Cadastrar/Gerar\n2 - Listar\n3 - Excluir/Cancelar\n4 - Transferir Seguro\n5 - Calcular Receita Seguradora\n6 - Autorizacao do Condutor\n0 - Sair\n");
+        System.out.println("1 - Cadastrar/Gerar\n2 - Listar\n3 - Excluir/Cancelar\n4 - Gerar sinistro\n5 - Transferir Seguro\n6 - Calcular Receita Seguradora\n7 - Autorizacao do Condutor\n0 - Sair\n");
         int comando = 0;
         Scanner entrada = new Scanner(System.in);
         //leio o comando
@@ -607,7 +689,7 @@ public class AppMain {
             }
             //está no menu principal
             if(comando == -1){
-                System.out.println("1 - Cadastrar/Gerar\n2 - Listar\n3 - Excluir/Cancelar\n4 - Transferir Seguro\n5 - Calcular Receita Seguradora\n6 - Autorizacao do Condutor\n0 - Sair\n");
+                System.out.println("1 - Cadastrar/Gerar\n2 - Listar\n3 - Excluir/Cancelar\n4 - Gerar sinistro\n5 - Transferir Seguro\n6 - Calcular Receita Seguradora\n7 - Autorizacao do Condutor\n0 - Sair\n");
                 //acao que o usuario quer tomar
                 comando = entrada.nextInt();
             }

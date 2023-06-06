@@ -2,9 +2,10 @@ public enum MenuOperacoes{
     CADASTRAR(1),
     LISTAR(2),
     EXCLUIR(3),
-    TRANSFERIR_SEGURO(4),
-    CALCULAR_RECEITA_SEGURADORA(5),
-    AUTORIZACAO_CONDUTOR(6),
+    GERAR_SINISTRO(4),
+    TRANSFERIR_SEGURO(5),
+    CALCULAR_RECEITA_SEGURADORA(6),
+    AUTORIZACAO_CONDUTOR(7),
     SAIR(0);
 
     public final int operacao;
